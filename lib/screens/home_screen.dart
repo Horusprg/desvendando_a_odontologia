@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/route_button.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -52,6 +54,11 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
+          RouteButtonWidget(
+              text: 'Iniciar Quiz',
+              onPressed: () {
+                Navigator.pushNamed(context, '/quiz');
+              }),
           // Footer
           Positioned(
             bottom: 20,
