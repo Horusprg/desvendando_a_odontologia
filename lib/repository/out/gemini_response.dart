@@ -1,7 +1,11 @@
-class GeminiResponse {
-  final String response;
+import 'dart:convert';
 
-  GeminiResponse({
-    required this.response,
-  });
+class GeminiResponse {
+  static List<dynamic>? responseToJSON({String? response}) {
+    try {
+      return jsonDecode(response.toString());
+    } catch (e) {
+      return null;
+    }
+  }
 }

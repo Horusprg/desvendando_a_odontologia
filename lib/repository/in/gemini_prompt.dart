@@ -1,28 +1,19 @@
 class GeminiPrompt {
   int questionQuantity;
   String questionModule;
+  String questionDifficulty;
+  String questionType;
 
   GeminiPrompt({
     required this.questionQuantity,
+    required this.questionDifficulty,
     required this.questionModule,
+    required this.questionType,
   });
 
-  build () {
+  build() {
     return '''
-    Gere $questionQuantity pergunta(s) de quiz sobre $questionModule com 5 alternativas de resposta.
-    Responda conforme o seguinte JSON:
-    
-    {
-      "question": "Qual é a capital do Brasil?",
-      "correctAnswer": "Brasília",
-      "explanation": "Brasília é a capital do Brasil desde 1960.",
-      "incorrectAnswers": [
-        "Rio de Janeiro",
-        "São Paulo",
-        "Belo Horizonte"
-      ]
-    }
-     ''';
+    Gere $questionQuantity pergunta(s) de quiz de nível $questionDifficulty sobre $questionModule de $questionType.
+    ''';
   }
-
 }

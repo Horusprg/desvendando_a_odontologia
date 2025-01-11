@@ -28,4 +28,9 @@ class Question {
       'incorrect_answers': incorrectAnswers,
     };
   }
+
+  @override
+  String toString() {
+    return '''\nQuestion: $question\nExplanation: $explanation\nCorrect Answer: $correctAnswer\nIncorrect Answers: $incorrectAnswers\n''';
+  }
 }
