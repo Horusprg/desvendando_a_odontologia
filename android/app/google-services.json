@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "341887486568",
+    "project_id": "desvendando-a-odontologia",
+    "storage_bucket": "desvendando-a-odontologia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341887486568:android:aa90728ec87602f70549dd",
+        "android_client_info": {
+          "package_name": "com.example.desvendando_a_odontologia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR_-j__novoF0YYiI5rJYq0f0O1XHkjkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

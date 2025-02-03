@@ -1,9 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/route_button.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String userName = "Carregando..."; // Nome padrão antes da busca
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref("users");
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  /// Busca o nome do usuário no Firebase usando o UID do usuário autenticado anonimamente
+  Future<void> fetchUserName() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        setState(() {
+          userName = "Usuário não autenticado";
+        });
+        return;
+      }
+
+      String userId = user.uid;
+
+      // Obtém os dados do usuário do Firebase
+      DatabaseEvent event = await _dbRef.child(userId).once();
+      DataSnapshot snapshot = event.snapshot;
+
+      if (snapshot.value != null) {
+        Map<String, dynamic> userData =
+            Map<String, dynamic>.from(snapshot.value as Map);
+        setState(() {
+          userName = userData['name'] ?? "Usuário sem nome";
+        });
+      } else {
+        setState(() {
+          userName = "Nome não encontrado";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        userName = "Erro ao buscar nome";
+      });
+      print("Erro ao buscar nome do usuário: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +65,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Gradient background
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Color(0xFF9BC2FC), // Cor inicial
@@ -28,10 +81,10 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Title
                 Text(
-                  'Olá, Marilene', // TODO: Adicionar nome do usuário pela base de dados
+                  'Olá, $userName', // Exibe o nome real do usuário
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w900,
@@ -40,27 +93,18 @@ class HomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 10),
-                Text(
-                  'Olá, seja bem-vindo!',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.blue[900],
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'PlayfairDisplay',
-                  ),
-                ),
-                SizedBox(height: 30)
+                const SizedBox(height: 30)
               ],
             ),
           ),
           RouteButtonWidget(
-              text: 'Iniciar Quiz',
-              onPressed: () {
-                Navigator.pushNamed(context, '/quiz');
-              }),
+            text: 'Iniciar Quiz',
+            onPressed: () {
+              Navigator.pushNamed(context, '/quiz');
+            },
+          ),
           // Footer
-          Positioned(
+          const Positioned(
             bottom: 20,
             left: 0,
             right: 0,

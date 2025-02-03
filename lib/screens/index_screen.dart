@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart'; // Importa o Firebase Realtime Database
+import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/logo.dart';
 import '../widgets/route_button.dart';
 
 class IndexScreen extends StatefulWidget {
   const IndexScreen({super.key});
-
   @override
   State<IndexScreen> createState() => _IndexScreenState();
 }
@@ -12,6 +13,53 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   final TextEditingController _nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? userId;
+
+  // Referência ao Firebase Realtime Database
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref('users');
+
+  @override
+  void initState() {
+    super.initState();
+    verifyUser();
+  }
+
+  /// Verifica se o usuário já existe ou precisa ser autenticado anonimamente
+  Future<void> verifyUser() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        // Cria um usuário anônimo caso não exista
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInAnonymously();
+        user = userCredential.user;
+      }
+
+      if (user != null) {
+        setState(() {
+          userId = user!.uid;
+        });
+
+        // Se o usuário já existe e tem um nome, vai direto para /home
+        DatabaseEvent event = await _dbRef.child(userId!).once();
+        if (event.snapshot.exists) {
+          if (mounted) {
+            Navigator.pushReplacementNamed(context, '/home');
+          }
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao conectar ao Firebase: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +70,7 @@ class _IndexScreenState extends State<IndexScreen> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    'assets/background.png'), // Add your background image here
+                image: AssetImage('assets/background.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -75,7 +122,8 @@ class _IndexScreenState extends State<IndexScreen> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
+                          color:
+                              Colors.black.withValues(alpha: .2), // Corrigido
                           spreadRadius: 2,
                           blurRadius: 6,
                           offset: Offset(2, 4),
@@ -103,17 +151,77 @@ class _IndexScreenState extends State<IndexScreen> {
                   // Buttons
                   RouteButtonWidget(
                       text: 'Entrar',
-                      onPressed: () {
-                        if (_nameController.text.isEmpty) {
-                          // Exibe uma mensagem de erro no Snackbar
+                      onPressed: () async {
+                        String userName = _nameController.text.trim();
+
+                        if (userName.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Por favor, insira seu nome')),
+                            const SnackBar(
+                              content: Text(
+                                  'Por favor, insira seu nome antes de continuar.'),
+                              backgroundColor: Colors.red,
+                            ),
                           );
-                        } else {
-                          // TODO: Inserir o nome do usuário na base de dados e criar um token de acesso (para progresso do usuário)
-                          // Prossegue para a próxima tela
-                          Navigator.pushNamed(context, '/home');
+                          return;
+                        }
+
+                        try {
+                          // Desabilita o botão enquanto processa a requisição
+                          setState(() {});
+
+                          if (userId == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text('Erro: ID do usuário não encontrado!'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                            return;
+                          }
+
+                          // Adiciona usuário ao Firebase Realtime Database
+                          await _dbRef.child(userId!).set({
+                            'name': userName,
+                            'timestamp': DateTime.now().toIso8601String(),
+                          });
+
+                          // Exibe mensagem de sucesso
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Bem-vindo, $userName!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+
+                            // Navega para a tela /home substituindo a tela atual
+                            Navigator.pushReplacementNamed(context, '/home');
+                          }
+                        } on FirebaseException catch (e) {
+                          if (context.mounted) {
+                            // Erro específico do Firebase (exemplo: permissão negada, banco indisponível)
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Erro no Firebase: ${e.message}'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            // Qualquer outro erro inesperado
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Erro ao salvar nome: ${e.toString()}'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        } finally {
+                          // Reativa o botão após a requisição
+                          setState(() {});
                         }
                       })
                 ],
