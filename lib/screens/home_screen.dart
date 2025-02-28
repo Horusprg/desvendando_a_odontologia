@@ -93,16 +93,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 30)
+                const SizedBox(height: 30),
+                RouteButtonWidget(
+                  text: 'Iniciar Quiz',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/questions-screen');
+                  },
+                ),
               ],
             ),
           ),
-          RouteButtonWidget(
-            text: 'Iniciar Quiz',
-            onPressed: () {
-              Navigator.pushNamed(context, '/quiz');
-            },
-          ),
+
           // Footer
           const Positioned(
             bottom: 20,

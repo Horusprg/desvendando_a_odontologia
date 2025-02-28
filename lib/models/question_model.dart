@@ -29,8 +29,15 @@ class Question {
     };
   }
 
-  @override
-  String toString() {
-    return '''\nQuestion: $question\nExplanation: $explanation\nCorrect Answer: $correctAnswer\nIncorrect Answers: $incorrectAnswers\n''';
+  List<String> getShuffledAnswers() {
+    List<String> answers = [correctAnswer, ...incorrectAnswers];
+    answers.shuffle();
+    return answers;
   }
+
+  // @override
+  // String toString() {
+  //   return '''\nQuestion: $question\nExplanation: $explanation\nCorrect Answer: $correctAnswer\nIncorrect Answers: $incorrectAnswers\n''';
+  // }
+
 }
