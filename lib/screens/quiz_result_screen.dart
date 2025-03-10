@@ -1,4 +1,5 @@
 import 'package:desvendando_a_odontologia/widgets/circular_progress.dart';
+import 'package:desvendando_a_odontologia/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,7 +17,6 @@ class QuizResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     int correctAnswers = 0;
     for (int i = 0; i < questions.length; i++) {
       if (selectedAnswers[i] == questions[i].correctAnswer) {
@@ -26,37 +26,44 @@ class QuizResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: EdgeInsets.only(top: 20),
-          child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(),
-            Text('RESULTADO',
-            style: GoogleFonts.roboto(
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1.6,
+          automaticallyImplyLeading: false,
+          title: Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(),
+                Text(
+                  'RESULTADO',
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.6,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    size: 30,
+                  ),
+                )
+              ],
             ),
-            ),
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.close, size: 30,),
-                
-            )
-          ],
-        ),
-      )),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircularProgressWidget(current: correctAnswers, total: questions.length,),
+            CircularProgressWidget(
+              current: correctAnswers,
+              total: questions.length,
+              color: AppColors.primary,
+            ),
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
@@ -73,7 +80,8 @@ class QuizResultScreen extends StatelessWidget {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Sua resposta: ${selectedAnswer ?? "Not answered"}'),
+                          Text(
+                              'Sua resposta: ${selectedAnswer ?? "Not answered"}'),
                           Text('Resposta correta: ${question.correctAnswer}'),
                           Text('Explicação: ${question.explanation}'),
                         ],

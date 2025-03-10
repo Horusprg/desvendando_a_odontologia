@@ -8,7 +8,7 @@ import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
 import 'package:desvendando_a_odontologia/models/question_model.dart';
 import 'package:desvendando_a_odontologia/models/question_type_enum.dart';
 import 'package:desvendando_a_odontologia/repository/in/gemini_prompt.dart';
-import 'package:desvendando_a_odontologia/repository/out/gemini_response.dart';
+//import 'package:desvendando_a_odontologia/repository/out/gemini_response.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 import '../adapters/question_adapter.dart';
