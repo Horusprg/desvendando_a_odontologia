@@ -1,63 +1,27 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const ProgressIndicatorApp());
+class CustomProgressIndicator extends StatelessWidget {
+  final double progress;
+  final Color color;
 
-class ProgressIndicatorApp extends StatelessWidget {
-  const ProgressIndicatorApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: ProgressIndicator(),
-    );
-  }
-}
-
-class ProgressIndicator extends StatefulWidget {
-  const ProgressIndicator({super.key});
-
-  @override
-  State<ProgressIndicator> createState() =>
-      _ProgressIndicatorState();
-}
-
-class _ProgressIndicatorState extends State<ProgressIndicator>
-    with TickerProviderStateMixin {
-
-  double _currentValue = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _currentValue = 1;
-      });
-    });
-  }
+  const CustomProgressIndicator(
+      {super.key, required this.progress, required this.color});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-            Center(
-            child: TweenAnimationBuilder<double>(
-            tween: Tween<double>(
-              begin: 0,
-              end: _currentValue,
-            ),
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOut,
-            builder: (context, value, _) =>
-        LinearProgressIndicator(value: value))
-    )
-    ],
-    ),
-    ),
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(
+        begin: 0,
+        end: progress,
+      ),
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.easeInOut,
+      builder: (context, value, _) => LinearProgressIndicator(
+        value: value,
+        minHeight: 20,
+        borderRadius: BorderRadius.circular(12),
+        color: color,
+      ),
     );
-    }
+  }
 }

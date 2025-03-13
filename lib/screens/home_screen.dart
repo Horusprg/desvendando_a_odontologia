@@ -76,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // Retângulo principal baseado no SVG
           Positioned(
             top: screenHeight * 0.05,
-            left: screenWidth * 0.025,
-            right: screenWidth * 0.025,
+            left: screenWidth * 0.035,
+            right: screenWidth * 0.035,
             bottom: screenHeight * 0.025,
             child: Container(
               width: screenWidth * 0.9,
@@ -137,9 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: ModuleCardWidget(
                             title: 'Saúde Bucal da Gestante',
-                            imagePath: 'assets/module_saude_geestante.png',
+                            imagePath: 'assets/module_saude_gestante.png',
                             onPressed: () async {
-                              Navigator.pushReplacementNamed(context, '/home');
+                              Navigator.pushReplacementNamed(
+                                  context, '/modulo-saude-gestante');
                             },
                           ),
                         ),
@@ -151,7 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             imagePath:
                                 'assets/module_amamentacao_odontologia.png',
                             onPressed: () async {
-                              Navigator.pushReplacementNamed(context, '/home');
+                              Navigator.pushReplacementNamed(
+                                  context, '/modulo-amamentacao');
                             },
                           ),
                         ),
@@ -239,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.rose,
+                        color: AppColors.lightRose,
                         fontFamily: 'Rosario'),
                     textAlign: TextAlign.center,
                   ),

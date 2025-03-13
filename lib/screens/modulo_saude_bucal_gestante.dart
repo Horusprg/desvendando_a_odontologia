@@ -4,8 +4,8 @@ import '../widgets/linear_progress.dart';
 import '../widgets/module_card.dart';
 import '../core/theme.dart';
 
-class ModuloAmamentacaoScreen extends StatefulWidget {
-  const ModuloAmamentacaoScreen({super.key});
+class ModuloSaudeGestanteScreen extends StatefulWidget {
+  const ModuloSaudeGestanteScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -13,8 +13,8 @@ class ModuloAmamentacaoScreen extends StatefulWidget {
   }
 }
 
-class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
-  Widget activeScreen = const ModuloAmamentacaoScreen();
+class _ModuloAmamentacaoState extends State<ModuloSaudeGestanteScreen> {
+  Widget activeScreen = const ModuloSaudeGestanteScreen();
 
   void switchScreen() {
     setState(() {});
@@ -56,7 +56,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                        color: AppColors.lightBlue,
+                        color: AppColors.lightRose,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
                             topRight: Radius.circular(20)),
@@ -67,7 +67,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                             borderRadius:
                                 BorderRadius.only(topLeft: Radius.circular(20)),
                             child: Image.asset(
-                              'assets/module_amamentacao_odontologia.png',
+                              'assets/module_saude_gestante.png',
                               width: 180,
                               height: 100,
                               fit: BoxFit.fitWidth,
@@ -129,24 +129,30 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: CustomProgressIndicator(
                               progress: 0.5,
-                              color: AppColors.lightBlue,
+                              color: AppColors.lightRose,
                             ),
                           ),
                           ModuleCardButtonWidget(
-                              text: 'Importância da Amamentação',
+                              text: 'Saúde Bucal da Mamãe',
                               onPressed: () {},
                               imagePath: 'assets/cards/fig-1.png',
-                              color: AppColors.lightBlue),
+                              color: AppColors.lightRose),
                           ModuleCardButtonWidget(
-                              text: 'Amamantação e Odontologia',
+                              text:
+                                  'Mitos e Crenças sobre Gravidez e Saúde Bucal',
                               onPressed: () {},
                               imagePath: 'assets/cards/fig-2.png',
-                              color: AppColors.lightBlue),
+                              color: AppColors.lightRose),
                           ModuleCardButtonWidget(
-                              text: 'Desmame Precoce',
+                              text: 'Saúde Periodontal e Gravidez',
                               onPressed: () {},
                               imagePath: 'assets/cards/fig-3.png',
-                              color: AppColors.lightBlue),
+                              color: AppColors.lightRose),
+                          ModuleCardButtonWidget(
+                              text: 'A Importância do Pré-Natal Odontológico',
+                              onPressed: () {},
+                              imagePath: 'assets/cards/fig-4.png',
+                              color: AppColors.lightRose),
                         ],
                       ),
                     ),
