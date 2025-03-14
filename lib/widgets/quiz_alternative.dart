@@ -7,10 +7,10 @@ class QuizAlternative extends StatefulWidget {
   const QuizAlternative({super.key});
 
   @override
-  _QuizAlternativeState createState() => _QuizAlternativeState();
+  QuizAlternativeState createState() => QuizAlternativeState();
 }
 
-class _QuizAlternativeState extends State<QuizAlternative> {
+class QuizAlternativeState extends State<QuizAlternative> {
   bool isSelected = false;
   String text = "";
 

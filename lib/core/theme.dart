@@ -25,4 +25,6 @@ class AppColors {
   static const Color green = Color.fromARGB(255, 5, 143, 62);
   static const Color lightRose = Color.fromRGBO(231, 152, 152, 1);
   static const Color lightBlue = Color.fromRGBO(186, 220, 255, 1);
+  static const Color blue = Color.fromRGBO(69, 150, 233, 1);
+  static const Color rose = Color.fromRGBO(239, 96, 96, 1);
 }

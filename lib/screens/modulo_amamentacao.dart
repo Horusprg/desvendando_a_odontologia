@@ -184,7 +184,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                                   size: 15.0),
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, '/quiz-amamentacao');
+                                    context, '/quiz-modulo-amamentacao');
                               },
                             ),
                           ),

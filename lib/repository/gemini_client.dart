@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:dotenv/dotenv.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:desvendando_a_odontologia/models/difficulty_enum.dart';
@@ -94,5 +95,7 @@ void main() async {
       DifficultyEnum.hard,
       LearnModuleTypeEnum.breastfeeding,
       QuestionTypeEnum.fillInTheBlanks);
-  print(questions);
+  if (kDebugMode) {
+    print(questions);
+  }
 }
