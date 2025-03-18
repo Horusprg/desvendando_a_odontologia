@@ -1,13 +1,30 @@
-import 'package:desvendando_a_odontologia/data/questions_dummy.dart';
+import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
 import 'package:desvendando_a_odontologia/screens/quiz_result_screen.dart';
+import 'package:desvendando_a_odontologia/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 import '../core/typography.dart';
+import '../models/difficulty_enum.dart';
 import '../models/question_model.dart';
+import '../models/question_type_enum.dart';
+import '../repository/gemini_client.dart';
+import '../services/service_locator.dart';
 import '../widgets/quiz_option.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  final DifficultyEnum difficulty;
+  final LearnModuleTypeEnum module;
+  final String topic;
+  final int quantity;
+  final QuestionTypeEnum type;
+
+
+  const QuestionsScreen({super.key,
+    required this.quantity,
+    required this.difficulty,
+    required this.type,
+    required this.topic,
+    required this.module});
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -16,6 +33,9 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   final Map<int, String> selectedAnswers = {};
   final Map<int, List<String>> shuffledAnswers = {};
+  final geminiClient = getIt<GeminiClient>();
+  List<Question> questions = [];
+  bool isLoading = true;
 
   double _progress = 0.0;
   int _currentQuestionIndex = 0;
@@ -23,14 +43,46 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   void initState() {
     super.initState();
-    _shuffleAnswers();
+    print("Funcionando tbm");
+    _fetchQuestions();
   }
 
   void _shuffleAnswers() {
     for (int i = 0; i < questions.length; i++) {
       List<String> answers =
-          questions[i].getShuffledAnswers();
+      questions[i].getShuffledAnswers();
       shuffledAnswers[i] = answers;
+    }
+  }
+
+  void _fetchQuestions() async {
+
+    try {
+      List<Question> loadedQuestions = await geminiClient.getQuestions(
+          questionQuantity: widget.quantity,
+          questionDifficulty: widget.difficulty,
+          questionModule: widget.module,
+          questionType: widget.type,
+          questionTopic: widget.topic);
+
+      setState(() {
+        questions = loadedQuestions;
+        _shuffleAnswers();
+        isLoading = false;
+      });
+
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(title: Text("Erro ao iniciar quiz"), actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Fechar'))
+            ]);
+          });
     }
   }
 
@@ -63,15 +115,19 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return LoadingOverlay();
+    }
+
     final Question currentQuestion = questions[_currentQuestionIndex];
     final List<String> answers = shuffledAnswers[_currentQuestionIndex]!;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Quiz de Amamentação',
+          'Quiz de ${widget.module.name}',
           style: TextStyle(
-              fontSize: 12, fontFamily: 'Roboto', fontWeight: FontWeight.w600),
+              fontSize: 14, fontFamily: 'Roboto', fontWeight: FontWeight.w400),
         ),
       ),
       body: Column(

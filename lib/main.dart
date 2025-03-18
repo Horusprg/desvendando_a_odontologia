@@ -1,11 +1,18 @@
+import 'package:desvendando_a_odontologia/repository/gemini_client.dart';
+import 'package:desvendando_a_odontologia/services/service_locator.dart';
+import 'package:dotenv/dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 import 'routes.dart'; // Import the routes file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  setupServiceLocator();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

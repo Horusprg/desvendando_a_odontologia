@@ -1,3 +1,8 @@
+import 'package:desvendando_a_odontologia/models/difficulty_enum.dart';
+import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
+import 'package:desvendando_a_odontologia/models/question_type_enum.dart';
+import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
+import 'package:desvendando_a_odontologia/widgets/quiz_setup_dialog.dart';
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
@@ -16,8 +21,44 @@ class ModuloAmamentacaoScreen extends StatefulWidget {
 class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
   Widget activeScreen = const ModuloAmamentacaoScreen();
 
-  void switchScreen() {
-    setState(() {});
+  void _startQuiz(
+      int questionQuantity,
+      LearnModuleTypeEnum selectedModule,
+      QuestionTypeEnum selectedQuestionType,
+      DifficultyEnum selectedDifficulty,
+      String questionTopic) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => QuestionsScreen(
+          quantity: questionQuantity,
+          module: selectedModule,
+          difficulty: DifficultyEnum.easy,
+          type: selectedQuestionType,
+          topic: questionTopic,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showQuizDialog(BuildContext context) async {
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (context) => const QuizSetupDialog(
+        module: LearnModuleTypeEnum.odontology_breastfeeding,
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    if (result != null) {
+      _startQuiz(
+        result["questionQuantity"],
+        result["module"],
+        result["questionType"],
+        result["difficulty"],
+        result["topic"],
+      );
+    }
   }
 
   @override
@@ -28,7 +69,6 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Fundo principal
           Positioned.fill(
             child: Container(
               color: AppColors.lightBlue,
@@ -169,8 +209,8 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                             elevation: 5,
                             child: ListTile(
                               contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5), // Ajusta espaçamento interno
+                                  horizontal: 10, vertical: 5),
+                              // Ajusta espaçamento interno
                               leading: const Icon(Icons.quiz, size: 30),
                               title: const Text(
                                 'Quizes',
@@ -183,8 +223,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                               trailing: const Icon(Icons.arrow_forward_ios,
                                   size: 15.0),
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/quiz-modulo-amamentacao');
+                                _showQuizDialog(context);
                               },
                             ),
                           ),

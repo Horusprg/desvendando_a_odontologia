@@ -1,5 +1,4 @@
-import 'package:desvendando_a_odontologia/widgets/circular_progress.dart';
-import 'package:desvendando_a_odontologia/core/theme.dart';
+import 'package:desvendando_a_odontologia/widgets/quiz_result_stats.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,76 +24,143 @@ class QuizResultScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(),
-                Text(
-                  'RESULTADO',
-                  style: GoogleFonts.roboto(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1.6,
+        appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(),
+                  SizedBox(),
+                  Text(
+                    'Resultado do Quiz',
+                    style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 30,
-                  ),
-                )
-              ],
-            ),
-          )),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircularProgressWidget(
-              current: correctAnswers,
-              total: questions.length,
-              color: AppColors.primary,
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/home'
+                      );
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      size: 30,
+                    ),
+                  )
+                ],
+              ),
+            )),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              QuizResultStatsWidget(
+                  selectedAnswers: selectedAnswers, questions: questions),
+              const Divider(),
+              Text("Respostas"),
+              Expanded(
+                  child: ListView.builder(
+                shrinkWrap: true,
                 itemCount: questions.length,
                 itemBuilder: (context, index) {
                   final question = questions[index];
                   final selectedAnswer = selectedAnswers[index];
                   final isCorrect = selectedAnswer == question.correctAnswer;
 
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                    child: ListTile(
-                      title: Text(question.question),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'Sua resposta: ${selectedAnswer ?? "Not answered"}'),
-                          Text('Resposta correta: ${question.correctAnswer}'),
-                          Text('Explicação: ${question.explanation}'),
-                        ],
-                      ),
-                      tileColor: isCorrect ? Colors.green[50] : Colors.red[50],
-                    ),
-                  );
+                  return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 4),
+                      child: ExpansionTile(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          collapsedShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          backgroundColor:
+                              isCorrect ? Colors.green[50] : Colors.red[50],
+                          collapsedBackgroundColor:
+                              isCorrect ? Colors.green[50] : Colors.red[50],
+                          title: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text("${index + 1}."),
+                                  isCorrect
+                                      ? Icon(Icons.check, color: Colors.green)
+                                      : Icon(Icons.close, color: Colors.red),
+                                ],
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  question.question,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          children: [
+                            ListTile(
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Escolheu: $selectedAnswer',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          isCorrect ? Colors.green : Colors.red,
+                                    ),
+                                  ),
+                                  if (!isCorrect)
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Resposta correta: ',
+                                        style: DefaultTextStyle.of(context)
+                                            .style
+                                            .copyWith(fontSize: 16),
+                                        children: [
+                                          TextSpan(
+                                            text: question.correctAnswer,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors
+                                                  .blue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (question.explanation
+                                      .isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        'Explicação: ${question.explanation}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey[700]),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              tileColor:
+                                  isCorrect ? Colors.green[50] : Colors.red[50],
+                            ),
+                          ]));
                 },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+              ))
+            ],
+          ),
+        ));
   }
 }
