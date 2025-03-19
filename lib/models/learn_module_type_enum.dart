@@ -1,5 +1,5 @@
 enum LearnModuleTypeEnum {
-  odontology_breastfeeding(name: 'Amamentação e Odontologia', topics: [
+  odontologyBreastfeeding(name: 'Amamentação e Odontologia', topics: [
     "Importância da Amamentação",
     "Amamantação e Odontologia",
     "Desmame Precoce"

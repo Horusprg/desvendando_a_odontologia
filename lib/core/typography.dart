@@ -24,20 +24,28 @@ class AppTypography {
   );
 
   static const TextStyle caption = TextStyle(
+    fontFamily: 'Typodermic',
     fontSize: fontSizeSmall,
     fontWeight: FontWeight.w300,
     color: Colors.black45,
 
   );
 
+  static TextStyle typodermic({required double size}) {
+    return TextStyle(
+      fontFamily: 'Typodermic',
+      fontSize: size,
+    );
+  }
+
   static TextStyle button = GoogleFonts.roboto(
-    fontSize: fontSizeSmall,
+    fontSize: fontSizeMedium,
     fontWeight: FontWeight.normal,
     color: Colors.black87,
   );
 
   static TextStyle question = GoogleFonts.roboto(
-      fontSize: fontSizeLarge,
+      fontSize: fontSizeExtraLarge,
       fontWeight: FontWeight.bold,
       color: Colors.black87
   );

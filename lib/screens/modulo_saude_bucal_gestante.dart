@@ -80,16 +80,17 @@ class _ModuloAmamentacaoState extends State<ModuloSaudeGestanteScreen> {
                               const Text(
                                 'Módulo',
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 10,
+                                    fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.text),
                                 textAlign: TextAlign.start,
                               ),
                               const Text(
-                                'Amamentação e\nOdontologia',
+                                'Saúde Bucal\nda Gestante',
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
+                                    fontSize: 24,
+                                    fontFamily: 'Typodermic',
                                     color: AppColors.text),
                                 textAlign: TextAlign.start,
                               ),

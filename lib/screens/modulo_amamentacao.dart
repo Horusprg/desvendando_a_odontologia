@@ -21,46 +21,6 @@ class ModuloAmamentacaoScreen extends StatefulWidget {
 class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
   Widget activeScreen = const ModuloAmamentacaoScreen();
 
-  void _startQuiz(
-      int questionQuantity,
-      LearnModuleTypeEnum selectedModule,
-      QuestionTypeEnum selectedQuestionType,
-      DifficultyEnum selectedDifficulty,
-      String questionTopic) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => QuestionsScreen(
-          quantity: questionQuantity,
-          module: selectedModule,
-          difficulty: DifficultyEnum.easy,
-          type: selectedQuestionType,
-          topic: questionTopic,
-        ),
-      ),
-    );
-  }
-
-  Future<void> _showQuizDialog(BuildContext context) async {
-    final result = await showDialog<Map<String, dynamic>>(
-      context: context,
-      builder: (context) => const QuizSetupDialog(
-        module: LearnModuleTypeEnum.odontology_breastfeeding,
-      ),
-    );
-
-    if (!context.mounted) return;
-
-    if (result != null) {
-      _startQuiz(
-        result["questionQuantity"],
-        result["module"],
-        result["questionType"],
-        result["difficulty"],
-        result["topic"],
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -120,7 +80,8 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                               const Text(
                                 'Módulo',
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 10,
+                                    fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.text),
                                 textAlign: TextAlign.start,
@@ -128,8 +89,9 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                               const Text(
                                 'Amamentação e\nOdontologia',
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
+                                    fontSize: 24,
+                                    fontFamily: 'Typodermic',
+                                    fontWeight: FontWeight.w100,
                                     color: AppColors.text),
                                 textAlign: TextAlign.start,
                               ),
@@ -223,7 +185,8 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                               trailing: const Icon(Icons.arrow_forward_ios,
                                   size: 15.0),
                               onTap: () {
-                                _showQuizDialog(context);
+                                Navigator.pushNamed(
+                                    context, '/quiz-modulo-amamentacao');
                               },
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:desvendando_a_odontologia/core/dimensions.dart';
 import 'package:desvendando_a_odontologia/core/theme.dart';
+import 'package:desvendando_a_odontologia/core/typography.dart';
 import 'package:desvendando_a_odontologia/models/feedback.dart';
 import 'package:desvendando_a_odontologia/widgets/circular_progress.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class QuizResultStatsWidget extends StatelessWidget {
                 children: [
                   Text(
                     "Você acertou $correctAnswers de ${questions.length}!",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: AppTypography.typodermic(size: AppTypography.fontSizeLarge),
                   ),
                   SizedBox(height: 5),
                   Text(

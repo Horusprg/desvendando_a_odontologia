@@ -10,7 +10,7 @@ class QuizAlternative extends StatefulWidget {
   const QuizAlternative({super.key});
 
   @override
-  _QuizAlternativeState createState() => _QuizAlternativeState();
+  State<StatefulWidget> createState() => _QuizAlternativeState();
 }
 
 class _QuizAlternativeState extends State<QuizAlternative> {

@@ -5,7 +5,6 @@ import 'screens/modulo_amamentacao.dart';
 import 'screens/modulo_saude_bucal_gestante.dart';
 import 'screens/quiz_modulo_amamentacao.dart';
 import 'screens/quiz_modulo_saude_bucal_gestante.dart';
-import 'screens/quiz_setup_screen.dart';
 
 class Routes {
   static const String indexScreen = '/';

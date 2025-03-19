@@ -42,12 +42,6 @@ class QuizAlternativeState extends State<QuizAlternative> {
                       overflow: TextOverflow.visible,
                     ),
                   ),
-                  SizedBox(width: AppDimensions.spacingLarge),
-                  Icon(
-                    Icons.check_circle_outline,
-                    size: 30,
-                    color: Colors.grey.shade200,
-                  ),
                 ],
               ),
             )
@@ -74,11 +68,6 @@ class QuizAlternativeState extends State<QuizAlternative> {
                     ),
                   ),
                   SizedBox(width: AppDimensions.spacingLarge),
-                  Icon(
-                    Icons.circle_outlined,
-                    size: 30,
-                    color: Colors.grey.shade200,
-                  ),
                 ],
               ),
             ),

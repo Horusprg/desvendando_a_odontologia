@@ -1,3 +1,7 @@
+import 'package:desvendando_a_odontologia/models/difficulty_enum.dart';
+import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
+import 'package:desvendando_a_odontologia/models/question_type_enum.dart';
+import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
@@ -147,36 +151,88 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                         children: [
                           QuizModuleCardButtonWidget(
                             text: 'Saúde Bucal da Mamãe',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.buccalHealth,
+                                    topic: LearnModuleTypeEnum
+                                        .buccalHealth.topics[0],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-4.png',
                             color: AppColors.rose,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
                             text:
                                 'Mitos e Crenças sobre Gravidez e Saúde Bucal',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.buccalHealth,
+                                    topic: LearnModuleTypeEnum
+                                        .buccalHealth.topics[1],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-2.png',
                             color: AppColors.rose,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
                             text: 'Saúde Periodontal e Gravidez',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.buccalHealth,
+                                    topic: LearnModuleTypeEnum
+                                        .buccalHealth.topics[2],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-3.png',
                             color: AppColors.rose,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
                             text: 'A Importância do Pré-Natal Odontológico',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.buccalHealth,
+                                    topic: LearnModuleTypeEnum
+                                        .buccalHealth.topics[3],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-1.png',
                             color: AppColors.rose,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                         ],
                       ),

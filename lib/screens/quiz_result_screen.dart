@@ -1,6 +1,6 @@
+import 'package:desvendando_a_odontologia/core/typography.dart';
 import 'package:desvendando_a_odontologia/widgets/quiz_result_stats.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../models/question_model.dart';
 
@@ -36,17 +36,13 @@ class QuizResultScreen extends StatelessWidget {
                   SizedBox(),
                   Text(
                     'Resultado do Quiz',
-                    style: GoogleFonts.roboto(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                    style: AppTypography.typodermic(
+                      size: AppTypography.fontSizeMedium,
                     ),
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/home'
-                      );
+                      Navigator.pushNamed(context, '/home');
                     },
                     icon: Icon(
                       Icons.close,
@@ -66,7 +62,9 @@ class QuizResultScreen extends StatelessWidget {
               QuizResultStatsWidget(
                   selectedAnswers: selectedAnswers, questions: questions),
               const Divider(),
-              Text("Respostas"),
+              Text("Respostas",
+                  style: AppTypography.typodermic(
+                      size: AppTypography.fontSizeMedium)),
               Expanded(
                   child: ListView.builder(
                 shrinkWrap: true,
@@ -133,15 +131,13 @@ class QuizResultScreen extends StatelessWidget {
                                             text: question.correctAnswer,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Colors
-                                                  .blue,
+                                              color: Colors.blue,
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  if (question.explanation
-                                      .isNotEmpty)
+                                  if (question.explanation.isNotEmpty)
                                     Padding(
                                       padding: const EdgeInsets.only(top: 5),
                                       child: Text(

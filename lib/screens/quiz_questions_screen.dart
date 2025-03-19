@@ -3,6 +3,7 @@ import 'package:desvendando_a_odontologia/screens/quiz_result_screen.dart';
 import 'package:desvendando_a_odontologia/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
+import '../core/theme.dart';
 import '../core/typography.dart';
 import '../models/difficulty_enum.dart';
 import '../models/question_model.dart';
@@ -43,7 +44,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   void initState() {
     super.initState();
-    print("Funcionando tbm");
     _fetchQuestions();
   }
 
@@ -56,7 +56,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   void _fetchQuestions() async {
-
     try {
       List<Question> loadedQuestions = await geminiClient.getQuestions(
           questionQuantity: widget.quantity,
@@ -72,17 +71,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       });
 
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(title: Text("Erro ao iniciar quiz"), actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Fechar'))
-            ]);
-          });
+      e.toString();
     }
   }
 
@@ -123,12 +112,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     final List<String> answers = shuffledAnswers[_currentQuestionIndex]!;
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(
-          'Quiz de ${widget.module.name}',
-          style: TextStyle(
-              fontSize: 14, fontFamily: 'Roboto', fontWeight: FontWeight.w400),
-        ),
+        backgroundColor: AppColors.background,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,7 +126,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 minHeight: 4,
                 backgroundColor: Colors.grey[300],
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                    Colors.deepOrangeAccent),
+                    AppColors.primary),
               ),
               const SizedBox(height: 10),
               Padding(
@@ -191,7 +177,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Text('Próximo'),
+                        Text('Próximo', style: TextStyle(fontFamily: 'Typodermic'),),
                         SizedBox(width: 10),
                         Icon(Icons.arrow_forward, color: Colors.white),
                       ],

@@ -138,6 +138,10 @@ flutter:
           weight: 300
         - asset: assets/fonts/Roboto/Roboto-ExtraLight.ttf
           weight: 200
+    - family: Typodermic
+      fonts:
+        - asset: assets/fonts/Typodermic/Typodermic.otf
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

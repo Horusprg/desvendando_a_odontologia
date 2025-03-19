@@ -1,4 +1,8 @@
+import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
 import 'package:flutter/material.dart';
+import '../models/difficulty_enum.dart';
+import '../models/learn_module_type_enum.dart';
+import '../models/question_type_enum.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
 import '../widgets/quiz_module_card.dart';
@@ -147,27 +151,66 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
                         children: [
                           QuizModuleCardButtonWidget(
                             text: 'Importância da Amamentação',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.odontologyBreastfeeding,
+                                    topic: LearnModuleTypeEnum
+                                        .odontologyBreastfeeding.topics[0],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-4.png',
                             color: AppColors.blue,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
                             text: 'Amamantação e Odontologia',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.odontologyBreastfeeding,
+                                    topic: LearnModuleTypeEnum
+                                        .odontologyBreastfeeding.topics[1],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-2.png',
                             color: AppColors.blue,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
                             text: 'Desmame Precoce',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(
+                                    quantity: 10,
+                                    difficulty: DifficultyEnum.medium,
+                                    type: QuestionTypeEnum.fillInTheBlanks,
+                                    module: LearnModuleTypeEnum.odontologyBreastfeeding,
+                                    topic: LearnModuleTypeEnum
+                                        .odontologyBreastfeeding.topics[2],
+                                  ),
+                                ),
+                              );
+                            },
                             imagePath: 'assets/cards/fig-3.png',
                             color: AppColors.blue,
                             progress: 0.5,
-                            lenQuiz: 20,
+                            lenQuiz: 10,
                           ),
                         ],
                       ),

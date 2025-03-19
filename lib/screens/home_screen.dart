@@ -1,11 +1,16 @@
 import 'package:desvendando_a_odontologia/core/theme.dart';
+import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../models/difficulty_enum.dart';
+import '../models/learn_module_type_enum.dart';
+import '../models/question_type_enum.dart';
 import '../widgets/cards.dart';
 import '../widgets/circular_progress.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import '../widgets/quiz_setup_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (snapshot.value != null) {
         Map<String, dynamic> userData =
-            Map<String, dynamic>.from(snapshot.value as Map);
+        Map<String, dynamic>.from(snapshot.value as Map);
         setState(() {
           userName = userData['name'] ?? "Usuário sem nome";
         });
@@ -59,10 +64,54 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _startQuiz(
+      int questionQuantity,
+      LearnModuleTypeEnum selectedModule,
+      QuestionTypeEnum selectedQuestionType,
+      DifficultyEnum selectedDifficulty,
+      String questionTopic) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => QuestionsScreen(
+          quantity: questionQuantity,
+          module: selectedModule,
+          difficulty: DifficultyEnum.easy,
+          type: selectedQuestionType,
+          topic: questionTopic,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showQuizDialog(BuildContext context) async {
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (context) => const QuizSetupDialog(),
+    );
+
+    if (!context.mounted) return;
+
+    if (result != null) {
+      _startQuiz(
+        result["questionQuantity"],
+        result["module"],
+        result["questionType"],
+        result["difficulty"],
+        result["topic"],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    final double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     return Scaffold(
       body: Stack(
@@ -131,8 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     height: 150,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment
-                          .spaceEvenly, // Distribui os cards uniformemente
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Distribui os cards uniformemente
                       children: [
                         Expanded(
                           child: ModuleCardWidget(
@@ -172,10 +220,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       title: const Text('Quiz aleatório',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
-                      subtitle: const Text('20 perguntas aleatórias'),
+                      subtitle: const Text('Perguntas aleatórias'),
                       trailing: const Icon(Icons.arrow_forward_ios),
                       onTap: () {
-                        Navigator.pushNamed(context, '/home');
+                        _showQuizDialog(context);
                       },
                     ),
                   ),
