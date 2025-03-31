@@ -4,27 +4,19 @@ import 'package:desvendando_a_odontologia/core/typography.dart';
 import 'package:desvendando_a_odontologia/models/feedback.dart';
 import 'package:desvendando_a_odontologia/widgets/circular_progress.dart';
 import 'package:flutter/material.dart';
-import '../models/question_model.dart';
 
 class QuizResultStatsWidget extends StatelessWidget {
-  final Map<int, String> selectedAnswers;
-  final List<Question> questions;
+  final int correctAnswers;
+  final int total;
 
   const QuizResultStatsWidget({
     super.key,
-    required this.selectedAnswers,
-    required this.questions,
+    required this.correctAnswers,
+    required this.total,
   });
 
   @override
   Widget build(BuildContext context) {
-    int correctAnswers = 0;
-    for (int i = 0; i < questions.length; i++) {
-      if (selectedAnswers[i] == questions[i].correctAnswer) {
-        correctAnswers++;
-      }
-    }
-
     return Card(
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -33,7 +25,7 @@ class QuizResultStatsWidget extends StatelessWidget {
           children: [
             CircularProgressWidget(
               current: correctAnswers,
-              total: questions.length,
+              total: total,
               color: AppColors.primary,
             ),
             SizedBox(width: AppDimensions.spacingMedium),
@@ -43,12 +35,13 @@ class QuizResultStatsWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Você acertou $correctAnswers de ${questions.length}!",
-                    style: AppTypography.typodermic(size: AppTypography.fontSizeLarge),
+                    "Você acertou $correctAnswers de $total!",
+                    style: AppTypography.typodermic(
+                        size: AppTypography.fontSizeLarge),
                   ),
                   SizedBox(height: 5),
                   Text(
-                    QuizFeedback.getFeedback(correctAnswers / questions.length).message,
+                    QuizFeedback.getFeedback(correctAnswers / total).message,
                     softWrap: true,
                   ),
                   SizedBox(height: 10),
@@ -57,14 +50,16 @@ class QuizResultStatsWidget extends StatelessWidget {
                       // Ação para refazer o quiz
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
                     ),
                     child: Text(
                       "Refazer Quiz",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                   )
                 ],

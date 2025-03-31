@@ -1,13 +1,10 @@
-import 'package:desvendando_a_odontologia/models/difficulty_enum.dart';
-import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
-import 'package:desvendando_a_odontologia/models/question_type_enum.dart';
-import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
-import 'package:desvendando_a_odontologia/widgets/quiz_setup_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
 import '../widgets/module_card.dart';
 import '../core/theme.dart';
+import '../services/database_service.dart';
 
 class ModuloAmamentacaoScreen extends StatefulWidget {
   const ModuloAmamentacaoScreen({super.key});
@@ -20,6 +17,41 @@ class ModuloAmamentacaoScreen extends StatefulWidget {
 
 class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
   Widget activeScreen = const ModuloAmamentacaoScreen();
+
+  double progressImportanciaAmamentacao = 0.0;
+  double progressAmamentacaoOdontologia = 0.0;
+  double progressDesmamePrecoce = 0.0;
+  double totalProgress = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
+    Map<String, dynamic> userData = await DatabaseService.getUserData();
+    try {
+      setState(() {
+        progressImportanciaAmamentacao =
+            (userData['progressImportanciaAmamentacao'] ?? 0) / 10;
+        progressAmamentacaoOdontologia =
+            (userData['progressAmamentacaoOdontologia'] ?? 0) / 10;
+        progressDesmamePrecoce = (userData['progressDesmamePrecoce'] ?? 0) / 10;
+      });
+      totalProgress = (progressImportanciaAmamentacao +
+              progressAmamentacaoOdontologia +
+              progressDesmamePrecoce) /
+          3;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      setState(() {
+        totalProgress = 0.0;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +142,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                'Progresso',
+                                'Progresso Total',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -118,7 +150,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                                 textAlign: TextAlign.start,
                               ),
                               Text(
-                                'X%',
+                                '${(totalProgress * 100).toStringAsFixed(1)}%',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -130,7 +162,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: CustomProgressIndicator(
-                              progress: 0.5,
+                              progress: totalProgress,
                               color: AppColors.lightBlue,
                             ),
                           ),

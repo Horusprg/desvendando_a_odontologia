@@ -51,7 +51,7 @@ class ModuleCardButtonWidget extends StatelessWidget {
                     text,
                     style: const TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         height: 1.1,
                         color: AppColors.text),
                   ),

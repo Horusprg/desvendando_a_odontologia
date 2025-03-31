@@ -2,8 +2,6 @@ import 'package:desvendando_a_odontologia/core/theme.dart';
 import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../models/difficulty_enum.dart';
 import '../models/learn_module_type_enum.dart';
 import '../models/question_type_enum.dart';
@@ -11,6 +9,7 @@ import '../widgets/cards.dart';
 import '../widgets/circular_progress.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/quiz_setup_dialog.dart';
+import '../services/database_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,45 +20,59 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String userName = "Carregando...";
-  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref("users");
+  int completedQuizzes = 0;
+  int completedModules = 0;
+  int progress = 0;
+  int progressRandom = 0;
 
   @override
   void initState() {
     super.initState();
-    fetchUserName();
+    fetchUser();
   }
 
-  Future<void> fetchUserName() async {
+  Future<void> fetchUser() async {
     try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        setState(() {
-          userName = "Usuário não autenticado";
-        });
-        return;
-      }
+      Map<String, dynamic> userData = await DatabaseService.getUserData();
+      setState(() {
+        userName = userData['name'] ?? "Usuário sem nome";
 
-      String userId = user.uid;
-      DatabaseEvent event = await _dbRef.child(userId).once();
-      DataSnapshot snapshot = event.snapshot;
+        // Lista de todos os tópicos/módulos disponíveis
+        final List<String> topics = [
+          'progressImportanciaAmamentacao',
+          'progressAmamentacaoOdontologia',
+          'progressDesmamePrecoce',
+          'progressSaudeBucal',
+          'progressMitosCrencas',
+          'progressSaudePeriodontal',
+          'progressImportanciaPrenatal'
+        ];
 
-      if (snapshot.value != null) {
-        Map<String, dynamic> userData =
-        Map<String, dynamic>.from(snapshot.value as Map);
-        setState(() {
-          userName = userData['name'] ?? "Usuário sem nome";
-        });
-      } else {
-        setState(() {
-          userName = "Nome não encontrado";
-        });
-      }
+        // Calcula a soma de todos os progressos e conta módulos completos
+        int totalProgress = 0;
+        int completedModulesCount = 0;
+
+        for (final topic in topics) {
+          progress = userData[topic] ?? 0;
+          totalProgress += progress;
+
+          // Considera completo se progresso for 10 (100%)
+          if (progress == 10) {
+            completedModulesCount++;
+          }
+        }
+
+        completedQuizzes = totalProgress;
+        completedModules = completedModulesCount;
+
+        progressRandom = (userData['progressRandom'] ?? 0) / 20;
+      });
     } catch (e) {
       setState(() {
         userName = "Erro ao buscar nome";
       });
       if (kDebugMode) {
-        print("Erro ao buscar nome do usuário: $e");
+        print("Erro ao buscar o usuário: $e");
       }
     }
   }
@@ -78,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
           difficulty: DifficultyEnum.easy,
           type: selectedQuestionType,
           topic: questionTopic,
+          dbRef: 'progressRandom',
         ),
       ),
     );
@@ -104,14 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Stack(
@@ -155,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Olá, $userName',
+                              'Olá, $userName!',
                               style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -180,7 +188,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     height: 150,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Distribui os cards uniformemente
+                      mainAxisAlignment: MainAxisAlignment
+                          .spaceEvenly, // Distribui os cards uniformemente
                       children: [
                         Expanded(
                           child: ModuleCardWidget(
@@ -262,12 +271,14 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Column(spacing: 10, children: [
                   const Text(
-                    'Quizzes\nCompletos',
+                    'Progresso\nnos Módulos',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   CircularProgressWidget(
-                      current: 30, total: 50, color: AppColors.primary),
+                      current: completedQuizzes,
+                      total: 70,
+                      color: AppColors.primary),
                 ]),
                 Column(spacing: 10, children: [
                   const Text(
@@ -276,16 +287,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     textAlign: TextAlign.center,
                   ),
                   CircularProgressWidget(
-                      current: 4, total: 10, color: AppColors.green),
+                      current: completedModules,
+                      total: 10,
+                      color: AppColors.green),
                 ]),
-                Column(spacing: 25, children: [
+                Column(spacing: 10, children: [
                   const Text(
-                    'Média de\nAcertos',
+                    'Progresso\ndos Quizzes\nAleatórios',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
-                  const Text(
-                    '80%',
+                  Text(
+                    '${(progressRandom * 100).toStringAsFixed(1)}%',
                     style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,

@@ -1,20 +1,60 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
 import '../widgets/module_card.dart';
 import '../core/theme.dart';
+import '../services/database_service.dart';
 
 class ModuloSaudeGestanteScreen extends StatefulWidget {
   const ModuloSaudeGestanteScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ModuloAmamentacaoState();
+    return _ModuloSaudeGestanteState();
   }
 }
 
-class _ModuloAmamentacaoState extends State<ModuloSaudeGestanteScreen> {
+class _ModuloSaudeGestanteState extends State<ModuloSaudeGestanteScreen> {
   Widget activeScreen = const ModuloSaudeGestanteScreen();
+
+  double progressSaudeBucal = 0.0;
+  double progressMitosCrencas = 0.0;
+  double progressSaudePeriodontal = 0.0;
+  double progressImportanciaPrenatal = 0.0;
+  double totalProgress = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
+    Map<String, dynamic> userData = await DatabaseService.getUserData();
+    try {
+      setState(() {
+        progressSaudeBucal = (userData['progressSaudeBucal'] ?? 0) / 10;
+        progressMitosCrencas = (userData['progressMitosCrencas'] ?? 0) / 10;
+        progressSaudePeriodontal =
+            (userData['progressSaudePeriodontal'] ?? 0) / 10;
+        progressImportanciaPrenatal =
+            (userData['progressImportanciaPrenatal'] ?? 0) / 10;
+      });
+      totalProgress = (progressSaudeBucal +
+              progressMitosCrencas +
+              progressSaudePeriodontal +
+              progressImportanciaPrenatal) /
+          4;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      setState(() {
+        totalProgress = 0.0;
+      });
+    }
+  }
 
   void switchScreen() {
     setState(() {});
@@ -109,7 +149,7 @@ class _ModuloAmamentacaoState extends State<ModuloSaudeGestanteScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
-                                'Progresso',
+                                'Progresso Total',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -117,7 +157,7 @@ class _ModuloAmamentacaoState extends State<ModuloSaudeGestanteScreen> {
                                 textAlign: TextAlign.start,
                               ),
                               Text(
-                                'X%',
+                                '${(totalProgress * 100).toStringAsFixed(1)}%',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -129,7 +169,7 @@ class _ModuloAmamentacaoState extends State<ModuloSaudeGestanteScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: CustomProgressIndicator(
-                              progress: 0.5,
+                              progress: totalProgress,
                               color: AppColors.lightRose,
                             ),
                           ),

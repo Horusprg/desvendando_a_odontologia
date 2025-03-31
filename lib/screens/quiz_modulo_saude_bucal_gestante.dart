@@ -2,11 +2,13 @@ import 'package:desvendando_a_odontologia/models/difficulty_enum.dart';
 import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
 import 'package:desvendando_a_odontologia/models/question_type_enum.dart';
 import 'package:desvendando_a_odontologia/screens/quiz_questions_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
 import '../widgets/quiz_module_card.dart';
 import '../core/theme.dart';
+import '../services/database_service.dart';
 
 class QuizSaudeGestanteScreen extends StatefulWidget {
   const QuizSaudeGestanteScreen({super.key});
@@ -19,6 +21,49 @@ class QuizSaudeGestanteScreen extends StatefulWidget {
 
 class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
   Widget activeScreen = const QuizSaudeGestanteScreen();
+
+  double progressSaudeBucal = 0.0;
+  double progressMitosCrencas = 0.0;
+  double progressSaudePeriodontal = 0.0;
+  double progressImportanciaPrenatal = 0.0;
+  double totalProgress = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
+    Map<String, dynamic> userData = await DatabaseService.getUserData();
+    try {
+      setState(() {
+        progressSaudeBucal = (userData['progressSaudeBucal'] ?? 0) / 10;
+        progressMitosCrencas = (userData['progressMitosCrencas'] ?? 0) / 10;
+        progressSaudePeriodontal =
+            (userData['progressSaudePeriodontal'] ?? 0) / 10;
+        progressImportanciaPrenatal =
+            (userData['progressImportanciaPrenatal'] ?? 0) / 10;
+      });
+      totalProgress = (progressSaudeBucal +
+              progressMitosCrencas +
+              progressSaudePeriodontal +
+              progressImportanciaPrenatal) /
+          4;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      setState(() {
+        // Reseta todos os valores para 0 em caso de erro
+        progressSaudeBucal = 0.0;
+        progressMitosCrencas = 0.0;
+        progressSaudePeriodontal = 0.0;
+        progressImportanciaPrenatal = 0.0;
+        totalProgress = 0.0;
+      });
+    }
+  }
 
   void switchScreen() {
     setState(() {});
@@ -114,7 +159,7 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
-                                  'Progresso',
+                                  'Progresso Total',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w900,
@@ -122,7 +167,7 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                                   textAlign: TextAlign.start,
                                 ),
                                 Text(
-                                  'X%',
+                                  '${(totalProgress * 100).toStringAsFixed(1)}%',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w900,
@@ -134,9 +179,9 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                bottom: 10.0, left: 20, right: 20),
+                                bottom: 10.0, left: 20, right: 20, top: 5),
                             child: CustomProgressIndicator(
-                              progress: 0.5,
+                              progress: totalProgress,
                               color: AppColors.rose,
                             ),
                           ),
@@ -161,13 +206,14 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                                     module: LearnModuleTypeEnum.buccalHealth,
                                     topic: LearnModuleTypeEnum
                                         .buccalHealth.topics[0],
+                                    dbRef: 'progressSaudeBucal',
                                   ),
                                 ),
                               );
                             },
                             imagePath: 'assets/cards/fig-4.png',
                             color: AppColors.rose,
-                            progress: 0.5,
+                            progress: progressSaudeBucal,
                             lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
@@ -183,13 +229,14 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                                     module: LearnModuleTypeEnum.buccalHealth,
                                     topic: LearnModuleTypeEnum
                                         .buccalHealth.topics[1],
+                                    dbRef: 'progressMitosCrencas',
                                   ),
                                 ),
                               );
                             },
                             imagePath: 'assets/cards/fig-2.png',
                             color: AppColors.rose,
-                            progress: 0.5,
+                            progress: progressMitosCrencas,
                             lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
@@ -204,13 +251,14 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                                     module: LearnModuleTypeEnum.buccalHealth,
                                     topic: LearnModuleTypeEnum
                                         .buccalHealth.topics[2],
+                                    dbRef: 'progressSaudePeriodontal',
                                   ),
                                 ),
                               );
                             },
                             imagePath: 'assets/cards/fig-3.png',
                             color: AppColors.rose,
-                            progress: 0.5,
+                            progress: progressSaudePeriodontal,
                             lenQuiz: 10,
                           ),
                           QuizModuleCardButtonWidget(
@@ -225,13 +273,14 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                                     module: LearnModuleTypeEnum.buccalHealth,
                                     topic: LearnModuleTypeEnum
                                         .buccalHealth.topics[3],
+                                    dbRef: 'progressSaudePeriodontal',
                                   ),
                                 ),
                               );
                             },
                             imagePath: 'assets/cards/fig-1.png',
                             color: AppColors.rose,
-                            progress: 0.5,
+                            progress: progressImportanciaPrenatal,
                             lenQuiz: 10,
                           ),
                         ],

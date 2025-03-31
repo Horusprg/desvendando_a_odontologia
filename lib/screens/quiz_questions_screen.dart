@@ -18,14 +18,16 @@ class QuestionsScreen extends StatefulWidget {
   final String topic;
   final int quantity;
   final QuestionTypeEnum type;
+  final String dbRef;
 
-
-  const QuestionsScreen({super.key,
-    required this.quantity,
-    required this.difficulty,
-    required this.type,
-    required this.topic,
-    required this.module});
+  const QuestionsScreen(
+      {super.key,
+      required this.quantity,
+      required this.difficulty,
+      required this.type,
+      required this.topic,
+      required this.module,
+      required this.dbRef});
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -49,8 +51,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   void _shuffleAnswers() {
     for (int i = 0; i < questions.length; i++) {
-      List<String> answers =
-      questions[i].getShuffledAnswers();
+      List<String> answers = questions[i].getShuffledAnswers();
       shuffledAnswers[i] = answers;
     }
   }
@@ -69,7 +70,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         _shuffleAnswers();
         isLoading = false;
       });
-
     } catch (e) {
       e.toString();
     }
@@ -92,12 +92,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         _progress += 1 / questions.length;
       } else {
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => QuizResultScreen(
-            selectedAnswers: selectedAnswers,
-            questions: questions
-          ))
-        );
+            context,
+            MaterialPageRoute(
+                builder: (context) => QuizResultScreen(
+                      selectedAnswers: selectedAnswers,
+                      questions: questions,
+                      topic: widget.topic,
+                      dbRef: widget.dbRef,
+                    )));
       }
     });
   }
@@ -125,8 +127,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 value: _progress,
                 minHeight: 4,
                 backgroundColor: Colors.grey[300],
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                    AppColors.primary),
+                valueColor:
+                    const AlwaysStoppedAnimation<Color>(AppColors.primary),
               ),
               const SizedBox(height: 10),
               Padding(
@@ -149,10 +151,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       bool isSelected =
                           selectedAnswers[_currentQuestionIndex] == answer;
                       return QuizOption(
-                        onTap: () => _handleOptionSelected(answer),
-                        text: answer,
-                        isSelected: isSelected
-                      );
+                          onTap: () => _handleOptionSelected(answer),
+                          text: answer,
+                          isSelected: isSelected);
                     }),
                   ],
                 ),
@@ -177,7 +178,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Text('Próximo', style: TextStyle(fontFamily: 'Typodermic'),),
+                        Text(
+                          'Próximo',
+                          style: TextStyle(fontFamily: 'Typodermic'),
+                        ),
                         SizedBox(width: 10),
                         Icon(Icons.arrow_forward, color: Colors.white),
                       ],
