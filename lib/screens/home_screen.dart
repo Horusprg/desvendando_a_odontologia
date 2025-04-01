@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         completedQuizzes = totalProgress;
         completedModules = completedModulesCount;
 
-        progressRandom = (userData['progressRandom'] ?? 0) / 20;
+        progressRandom = ((userData['progressRandom'] ?? 0) / 20).toInt();
       });
     } catch (e) {
       setState(() {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart'; // Importa o Firebase Realtime Database
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/logo.dart';
 import '../widgets/route_button.dart';
@@ -26,37 +26,26 @@ class _IndexScreenState extends State<IndexScreen> {
 
   /// Verifica se o usuário já existe ou precisa ser autenticado anonimamente
   Future<void> verifyUser() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
-      if (user == null) {
-        // Cria um usuário anônimo caso não exista
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInAnonymously();
-        user = userCredential.user;
-      }
+    if (user == null) {
+      // Cria um usuário anônimo caso não exista
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInAnonymously();
+      user = userCredential.user;
+    }
 
-      if (user != null) {
-        setState(() {
-          userId = user!.uid;
-        });
+    if (user != null) {
+      setState(() {
+        userId = user!.uid;
+      });
 
-        // Se o usuário já existe e tem um nome, vai direto para /home
-        DatabaseEvent event = await _dbRef.child(userId!).once();
-        if (event.snapshot.exists) {
-          if (mounted) {
-            Navigator.pushReplacementNamed(context, '/home');
-          }
+      // Se o usuário já existe e tem um nome, vai direto para /home
+      DatabaseEvent event = await _dbRef.child(userId!).once();
+      if (event.snapshot.exists) {
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/home');
         }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Erro ao conectar ao Firebase: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
       }
     }
   }
@@ -99,7 +88,7 @@ class _IndexScreenState extends State<IndexScreen> {
                   SizedBox(
                     height: 20,
                     width: MediaQuery.of(context).size.width *
-                        0.7, // 70% da largura da tela,
+                        0.7, // 70% da largura da tela
                     child: Divider(
                       thickness: 2,
                       color: Colors.blue[900],
@@ -122,8 +111,7 @@ class _IndexScreenState extends State<IndexScreen> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color:
-                              Colors.black.withValues(alpha: .2), // Corrigido
+                          color: Colors.black.withValues(alpha: .2),
                           spreadRadius: 2,
                           blurRadius: 6,
                           offset: Offset(2, 4),
@@ -166,9 +154,6 @@ class _IndexScreenState extends State<IndexScreen> {
                         }
 
                         try {
-                          // Desabilita o botão enquanto processa a requisição
-                          setState(() {});
-
                           if (userId == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -200,7 +185,6 @@ class _IndexScreenState extends State<IndexScreen> {
                           }
                         } on FirebaseException catch (e) {
                           if (context.mounted) {
-                            // Erro específico do Firebase (exemplo: permissão negada, banco indisponível)
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Erro no Firebase: ${e.message}'),
@@ -210,7 +194,6 @@ class _IndexScreenState extends State<IndexScreen> {
                           }
                         } catch (e) {
                           if (context.mounted) {
-                            // Qualquer outro erro inesperado
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -219,9 +202,6 @@ class _IndexScreenState extends State<IndexScreen> {
                               ),
                             );
                           }
-                        } finally {
-                          // Reativa o botão após a requisição
-                          setState(() {});
                         }
                       })
                 ],

@@ -5,6 +5,7 @@ import 'screens/modulo_amamentacao.dart';
 import 'screens/modulo_saude_bucal_gestante.dart';
 import 'screens/quiz_modulo_amamentacao.dart';
 import 'screens/quiz_modulo_saude_bucal_gestante.dart';
+import 'screens/statistic_screen.dart';
 
 class Routes {
   static const String indexScreen = '/';
@@ -16,6 +17,7 @@ class Routes {
   static const String quizAmamentacaoScreen = '/quiz-modulo-amamentacao';
   static const String quizSaudeGestanteScreen = '/quiz-modulo-saude-gestante';
   static const String quizSetupScreen = '/quiz-setup';
+  static const String statisticsScreen = '/stats';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -25,6 +27,7 @@ class Routes {
       moduloSaudeGestanteScreen: (context) => ModuloSaudeGestanteScreen(),
       quizAmamentacaoScreen: (context) => QuizAmamentacaoScreen(),
       quizSaudeGestanteScreen: (context) => QuizSaudeGestanteScreen(),
+      statisticsScreen: (context) => StatisticsScreen(),
       // quizSetupScreen: (context) => QuizSetupScreen(),
     };
   }
