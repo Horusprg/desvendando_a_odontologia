@@ -1,3 +1,4 @@
+import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../widgets/bottom_navigation_bar.dart';
@@ -139,64 +140,58 @@ class _ModuloSaudeGestanteState extends State<ModuloSaudeGestanteScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.only(left: 20.0, right: 20, top: 15.0),
-                      child: Column(
-                        spacing: 10,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Progresso Total',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.text),
-                                textAlign: TextAlign.start,
-                              ),
-                              Text(
-                                '${(totalProgress * 100).toStringAsFixed(1)}%',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.text),
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
-                            child: CustomProgressIndicator(
-                              progress: totalProgress,
-                              color: AppColors.lightRose,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 15.0, bottom: 15.0),
+                        child: Column(
+                          spacing: 10,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Progresso Total',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.text),
+                                  textAlign: TextAlign.start,
+                                ),
+                                Text(
+                                  '${(totalProgress * 100).toStringAsFixed(1)}%',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.text),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
                             ),
-                          ),
-                          ModuleCardButtonWidget(
-                              text: 'Saúde Bucal da Mamãe',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-1.png',
-                              color: AppColors.lightRose),
-                          ModuleCardButtonWidget(
-                              text:
-                                  'Mitos e Crenças sobre Gravidez e Saúde Bucal',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-2.png',
-                              color: AppColors.lightRose),
-                          ModuleCardButtonWidget(
-                              text: 'Saúde Periodontal e Gravidez',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-3.png',
-                              color: AppColors.lightRose),
-                          ModuleCardButtonWidget(
-                              text: 'A Importância do Pré-Natal Odontológico',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-4.png',
-                              color: AppColors.lightRose),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: CustomProgressIndicator(
+                                progress: totalProgress,
+                                color: AppColors.lightRose,
+                              ),
+                            ),
+                            ...LearnModuleTypeEnum.buccalHealth.topics.entries
+                                .map((entry) {
+                              final topicKey = entry.key;
+                              final subtopics = entry.value;
+
+                              return ModuleCardButtonWidget(
+                                text: topicKey,
+                                imagePath:
+                                    'assets/cards/fig-${LearnModuleTypeEnum.buccalHealth.topics.keys.toList().indexOf(topicKey) + 1}.png',
+                                color: AppColors.lightRose,
+                                subtopics: subtopics,
+                              );
+                            })
+                          ],
+                        ),
                       ),
-                    ),
+                    )
                   ]),
                 ),
                 SizedBox(
@@ -216,11 +211,11 @@ class _ModuloSaudeGestanteState extends State<ModuloSaudeGestanteScreen> {
                             elevation: 5,
                             child: ListTile(
                               contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5), // Ajusta espaçamento interno
+                                  horizontal: 10, vertical: 5),
+                              // Ajusta espaçamento interno
                               leading: const Icon(Icons.quiz, size: 30),
                               title: const Text(
-                                'Quizes',
+                                'Quizzes',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal),

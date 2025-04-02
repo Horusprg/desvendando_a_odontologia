@@ -82,7 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
       LearnModuleTypeEnum selectedModule,
       QuestionTypeEnum selectedQuestionType,
       DifficultyEnum selectedDifficulty,
-      String questionTopic) {
+      String questionTopic,
+      String questionSubtopic) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => QuestionsScreen(
@@ -91,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
           difficulty: DifficultyEnum.easy,
           type: selectedQuestionType,
           topic: questionTopic,
+          subtopic: questionSubtopic,
           dbRef: 'progressRandom',
         ),
       ),
@@ -112,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
         result["questionType"],
         result["difficulty"],
         result["topic"],
+        result["subtopic"],
       );
     }
   }

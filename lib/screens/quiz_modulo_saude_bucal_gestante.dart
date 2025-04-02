@@ -28,6 +28,13 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
   double progressImportanciaPrenatal = 0.0;
   double totalProgress = 0.0;
 
+  Map<String, String> titleToDbRef = {
+    "Saúde Bucal da Mamãe": "progressSaudeBucal",
+    "Mitos e Crenças sobre Gravidez e Saúde Bucal": "progressMitosCrencas",
+    "Doença Periodontais e Complicações Obstétricas": "progressSaudePeriodontal",
+    "A Importância do Pré-Natal Odontológico": "progressImportanciaPrenatal"
+  };
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +74,16 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
 
   void switchScreen() {
     setState(() {});
+  }
+
+  double getProgressForTopic(String dbRef) {
+    switch(dbRef) {
+      case 'progressSaudeBucal': return progressSaudeBucal;
+      case 'progressMitosCrencas': return progressMitosCrencas;
+      case 'progressSaudePeriodontal': return progressSaudePeriodontal;
+      case 'progressImportanciaPrenatal': return progressImportanciaPrenatal;
+      default: return 0.0;
+    }
   }
 
   @override
@@ -194,95 +211,34 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                       child: Column(
                         spacing: 10,
                         children: [
-                          QuizModuleCardButtonWidget(
-                            text: 'Saúde Bucal da Mamãe',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum.buccalHealth,
-                                    topic: LearnModuleTypeEnum
-                                        .buccalHealth.topics[0],
-                                    dbRef: 'progressSaudeBucal',
+                          ...LearnModuleTypeEnum.buccalHealth.topics.entries.map((entry) {
+                            final topicKey = entry.key;
+                            final topicItems = entry.value;
+                            final dbRef = titleToDbRef[topicKey];
+
+                            return QuizModuleCardButtonWidget(
+                              text: topicKey,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => QuestionsScreen(
+                                      quantity: 10,
+                                      difficulty: DifficultyEnum.medium,
+                                      type: QuestionTypeEnum.fillInTheBlanks,
+                                      module: LearnModuleTypeEnum.buccalHealth,
+                                      topic: topicKey,
+                                      subtopic: "",// Agora passamos a chave do tópico
+                                      dbRef: dbRef,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-4.png',
-                            color: AppColors.rose,
-                            progress: progressSaudeBucal,
-                            lenQuiz: 10,
-                          ),
-                          QuizModuleCardButtonWidget(
-                            text:
-                                'Mitos e Crenças sobre Gravidez e Saúde Bucal',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum.buccalHealth,
-                                    topic: LearnModuleTypeEnum
-                                        .buccalHealth.topics[1],
-                                    dbRef: 'progressMitosCrencas',
-                                  ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-2.png',
-                            color: AppColors.rose,
-                            progress: progressMitosCrencas,
-                            lenQuiz: 10,
-                          ),
-                          QuizModuleCardButtonWidget(
-                            text: 'Saúde Periodontal e Gravidez',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum.buccalHealth,
-                                    topic: LearnModuleTypeEnum
-                                        .buccalHealth.topics[2],
-                                    dbRef: 'progressSaudePeriodontal',
-                                  ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-3.png',
-                            color: AppColors.rose,
-                            progress: progressSaudePeriodontal,
-                            lenQuiz: 10,
-                          ),
-                          QuizModuleCardButtonWidget(
-                            text: 'A Importância do Pré-Natal Odontológico',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum.buccalHealth,
-                                    topic: LearnModuleTypeEnum
-                                        .buccalHealth.topics[3],
-                                    dbRef: 'progressSaudePeriodontal',
-                                  ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-1.png',
-                            color: AppColors.rose,
-                            progress: progressImportanciaPrenatal,
-                            lenQuiz: 10,
-                          ),
+                                );
+                              },
+                              imagePath: 'assets/cards/fig-${LearnModuleTypeEnum.buccalHealth.topics.keys.toList().indexOf(topicKey) + 1}.png',
+                              color: AppColors.rose,
+                              progress: getProgressForTopic(dbRef!), // Você precisará implementar essa função
+                              lenQuiz: 10,
+                            );
+                          }),
                         ],
                       ),
                     ),

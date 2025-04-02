@@ -1,77 +1,172 @@
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
 
-class ModuleCardButtonWidget extends StatelessWidget {
+class ModuleCardButtonWidget extends StatefulWidget {
   final String text;
   final String imagePath;
-  final VoidCallback onPressed;
   final Color color;
+  final List<String>? subtopics; // Lista de subtópicos (pode ser nula)
 
   const ModuleCardButtonWidget({
     super.key,
     required this.text,
     required this.imagePath,
-    required this.onPressed,
     required this.color,
+    this.subtopics, // Novo parâmetro opcional
   });
 
   @override
+  State<ModuleCardButtonWidget> createState() => _ModuleCardButtonWidgetState();
+}
+
+class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
+  bool isExpanded = false; // Controla a expansão dos subtópicos
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 70,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color, width: 3),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            spreadRadius: 2,
-            blurRadius: 6,
-            offset: Offset(2, 4),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: InkWell(
-            onTap: onPressed,
+    return Column(
+      children: [
+        // Card principal
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              // Só alterna expansão se houver subtópicos
+              if (widget.subtopics != null && widget.subtopics!.isNotEmpty) {
+                isExpanded = !isExpanded;
+              }
+            });
+            if (widget.subtopics!.isEmpty) {
+              print(widget.text);
+            }
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 70,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: widget.color, width: 3),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 6,
+                  offset: const Offset(2, 4),
+                ),
+              ],
+            ),
             child: Row(
               children: [
                 Image.asset(
-                  imagePath,
+                  widget.imagePath,
                   width: MediaQuery.of(context).size.width * 0.25,
                   fit: BoxFit.fitHeight,
                 ),
                 Expanded(
                   child: Text(
-                    text,
+                    widget.text,
                     style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        height: 1.1,
-                        color: AppColors.text),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      height: 1.1,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 Container(
-                    height: double.infinity,
-                    width: 50,
-                    color: color,
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.black54,
-                    )),
+                  height: double.infinity,
+                  width: 50,
+                  color: widget.color,
+                  child: (widget.subtopics?.isNotEmpty ?? false)
+                      ? AnimatedRotation(
+                          duration: const Duration(milliseconds: 100),
+                          turns:
+                              isExpanded ? 0.25 : 0.0, // 0.25 turns = 90 graus
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.black54,
+                          ),
+                        )
+                      : const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black54,
+                        ),
+                ),
               ],
             ),
           ),
         ),
-      ),
+
+        // Área de subtópicos (só aparece se expandido e houver subtópicos)
+        if (isExpanded && widget.subtopics?.isNotEmpty == true)
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 8),
+            child: Column(
+              children: widget.subtopics!.map((subtopic) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  margin: const EdgeInsets.only(bottom: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: widget.color, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, subtopic);
+                        // Ação quando um subtópico é selecionado
+                        print('Subtópico selecionado: $subtopic');
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                subtopic,
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: double.infinity,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: widget.color,
+                            ),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+      ],
     );
   }
 }

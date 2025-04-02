@@ -6,7 +6,6 @@ import 'package:desvendando_a_odontologia/models/learn_module_type_enum.dart';
 import 'package:desvendando_a_odontologia/models/question_model.dart';
 import 'package:desvendando_a_odontologia/models/question_type_enum.dart';
 import 'package:desvendando_a_odontologia/repository/in/gemini_prompt.dart';
-//import 'package:desvendando_a_odontologia/repository/out/gemini_response.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 import '../adapters/question_adapter.dart';
@@ -53,14 +52,16 @@ class GeminiClient {
       required DifficultyEnum questionDifficulty,
       required LearnModuleTypeEnum questionModule,
       required QuestionTypeEnum questionType,
-      required String questionTopic}) async {
+      required String questionTopic,
+      required String questionSubtopic}) async {
     try {
       GeminiPrompt geminiPrompt = GeminiPrompt(
           questionQuantity: questionQuantity,
           questionDifficulty: questionDifficulty.name,
           questionModule: questionModule.name,
           questionType: questionType.name,
-          questionTopic: questionTopic);
+          questionTopic: questionTopic,
+          questionSubtopic: questionSubtopic);
 
       final prompt = geminiPrompt.toString();
       final content = [Content.text(prompt)];

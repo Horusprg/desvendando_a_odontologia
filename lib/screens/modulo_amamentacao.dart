@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../models/learn_module_type_enum.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/linear_progress.dart';
 import '../widgets/module_card.dart';
@@ -132,58 +133,59 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.only(left: 20.0, right: 20, top: 15.0),
-                      child: Column(
-                        spacing: 10,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Progresso Total',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.text),
-                                textAlign: TextAlign.start,
-                              ),
-                              Text(
-                                '${(totalProgress * 100).toStringAsFixed(1)}%',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.text),
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
-                            child: CustomProgressIndicator(
-                              progress: totalProgress,
-                              color: AppColors.lightBlue,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding:
+                            EdgeInsets.only(left: 20.0, right: 20, top: 15.0),
+                        child: Column(
+                          spacing: 10,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Progresso Total',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.text),
+                                  textAlign: TextAlign.start,
+                                ),
+                                Text(
+                                  '${(totalProgress * 100).toStringAsFixed(1)}%',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.text),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
                             ),
-                          ),
-                          ModuleCardButtonWidget(
-                              text: 'Importância da Amamentação',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-1.png',
-                              color: AppColors.lightBlue),
-                          ModuleCardButtonWidget(
-                              text: 'Amamantação e Odontologia',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-2.png',
-                              color: AppColors.lightBlue),
-                          ModuleCardButtonWidget(
-                              text: 'Desmame Precoce',
-                              onPressed: () {},
-                              imagePath: 'assets/cards/fig-3.png',
-                              color: AppColors.lightBlue),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: CustomProgressIndicator(
+                                progress: totalProgress,
+                                color: AppColors.lightBlue,
+                              ),
+                            ),
+                            ...LearnModuleTypeEnum
+                                .odontologyBreastfeeding.topics.entries
+                                .map((entry) {
+                              final topicKey = entry.key;
+                              final subtopics = entry.value;
+
+                              return ModuleCardButtonWidget(
+                                text: topicKey,
+                                imagePath:
+                                    'assets/cards/fig-${LearnModuleTypeEnum.odontologyBreastfeeding.topics.keys.toList().indexOf(topicKey) + 1}.png',
+                                color: AppColors.lightBlue,
+                                subtopics: subtopics,
+                              );
+                            })
+                          ],
+                        ),
                       ),
-                    ),
+                    )
                   ]),
                 ),
                 SizedBox(
@@ -207,7 +209,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                               // Ajusta espaçamento interno
                               leading: const Icon(Icons.quiz, size: 30),
                               title: const Text(
-                                'Quizes',
+                                'Quizzes',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal),

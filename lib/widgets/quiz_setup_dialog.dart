@@ -13,7 +13,9 @@ class QuizSetupDialog extends StatelessWidget {
     LearnModuleTypeEnum selectedModule = LearnModuleTypeEnum.odontologyBreastfeeding;
     QuestionTypeEnum selectedQuestionType = QuestionTypeEnum.multipleChoice;
     DifficultyEnum selectedDifficulty = DifficultyEnum.easy;
-    String selectedTopic = selectedModule.topics[0];
+    String selectedTopic = selectedModule.topics.keys.first;
+    List<String> selectedSubtopics = selectedModule.topics[selectedTopic] ?? [];
+    String? selectedSubtopic = selectedModule.topics[selectedTopic]?.first ?? "";
 
     return AlertDialog(
       backgroundColor: AppColors.background,
@@ -55,7 +57,8 @@ class QuizSetupDialog extends StatelessWidget {
                     if (value != null) {
                       setState(() {
                         selectedModule = value;
-                        selectedTopic = value.topics.first; // Atualiza o tópico com o primeiro do novo módulo
+                        selectedTopic = value.topics.keys.first; // Pega a primeira chave do Map
+                        selectedSubtopics = value.topics[selectedTopic] ?? []; // Atualiza os subtópicos
                       });
                     }
                   },
@@ -100,8 +103,11 @@ class QuizSetupDialog extends StatelessWidget {
                 DropdownButtonFormField<String>(
                   isExpanded: true,
                   value: selectedTopic,
-                  items: selectedModule.topics.map((topic) {
-                    return DropdownMenuItem(value: topic, child: Text(topic));
+                  items: selectedModule.topics.keys.map((topicKey) {
+                    return DropdownMenuItem(
+                      value: topicKey,
+                      child: Text(topicKey),
+                    );
                   }).toList(),
                   onChanged: (value) {
                     if (value != null) {
@@ -112,6 +118,25 @@ class QuizSetupDialog extends StatelessWidget {
                   },
                   decoration: InputDecoration(labelText: "Tópico"),
                 ),
+                if (selectedSubtopics.isNotEmpty)
+                  DropdownButtonFormField<String>(
+                    isExpanded: true,
+                    value: selectedSubtopic,
+                    items: selectedSubtopics.map((subtopic) {
+                      return DropdownMenuItem(
+                        value: subtopic,
+                        child: Text(subtopic),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedSubtopic = newValue;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Selecione um subtópico',
+                    ),
+                  ),
               ],
             ),
           );
@@ -132,6 +157,7 @@ class QuizSetupDialog extends StatelessWidget {
               "questionType": selectedQuestionType,
               "difficulty": selectedDifficulty,
               "topic": selectedTopic,
+              "subtopic": selectedSubtopic
             });
           },
           child: Text("Iniciar Quiz", style: TextStyle(fontFamily: 'Typodermic')),

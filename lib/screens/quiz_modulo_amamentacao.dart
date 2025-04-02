@@ -22,6 +22,12 @@ class QuizAmamentacaoScreen extends StatefulWidget {
 class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
   Widget activeScreen = const QuizAmamentacaoScreen();
 
+  Map<String, String> titleToDbRef = {
+    "Importância da Amamentação": "progressImportanciaAmamentacao",
+    "Amamentação e Odontologia": "progressAmamentacaoOdontologia",
+    "Desmame Precoce": "progressDesmamePrecoce"
+  };
+
   double progressImportanciaAmamentacao = 0.0;
   double progressAmamentacaoOdontologia = 0.0;
   double progressDesmamePrecoce = 0.0;
@@ -63,6 +69,17 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
 
   void switchScreen() {
     setState(() {});
+  }
+
+  double getProgressForTopic(String dbRef) {
+    // Implemente sua lógica para recuperar o progresso
+    // Exemplo:
+    switch(dbRef) {
+      case 'progressImportanciaAmamentacao': return progressImportanciaAmamentacao;
+      case 'progressAmamentacaoOdontologia': return progressAmamentacaoOdontologia;
+      case 'progressDesmamePrecoce': return progressDesmamePrecoce;
+      default: return 0.0;
+    }
   }
 
   @override
@@ -190,75 +207,34 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
                       child: Column(
                         spacing: 10,
                         children: [
-                          QuizModuleCardButtonWidget(
-                            text: 'Importância da Amamentação',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum
-                                        .odontologyBreastfeeding,
-                                    topic: LearnModuleTypeEnum
-                                        .odontologyBreastfeeding.topics[0],
-                                    dbRef: 'progressImportanciaAmamentacao',
+                          ...LearnModuleTypeEnum.odontologyBreastfeeding.topics.entries.map((entry) {
+                            final topicKey = entry.key;
+                            final topicItems = entry.value;
+                            final dbRef = titleToDbRef[topicKey];
+
+                            return QuizModuleCardButtonWidget(
+                              text: topicKey,
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => QuestionsScreen(
+                                      quantity: 10,
+                                      difficulty: DifficultyEnum.medium,
+                                      type: QuestionTypeEnum.fillInTheBlanks,
+                                      module: LearnModuleTypeEnum.odontologyBreastfeeding,
+                                      topic: topicKey,
+                                      subtopic: "",
+                                      dbRef: dbRef,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-4.png',
-                            color: AppColors.blue,
-                            progress: progressImportanciaAmamentacao,
-                            lenQuiz: 10,
-                          ),
-                          QuizModuleCardButtonWidget(
-                            text: 'Amamantação e Odontologia',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum
-                                        .odontologyBreastfeeding,
-                                    topic: LearnModuleTypeEnum
-                                        .odontologyBreastfeeding.topics[1],
-                                    dbRef: 'progressAmamentacaoOdontologia',
-                                  ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-2.png',
-                            color: AppColors.blue,
-                            progress: progressAmamentacaoOdontologia,
-                            lenQuiz: 10,
-                          ),
-                          QuizModuleCardButtonWidget(
-                            text: 'Desmame Precoce',
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => QuestionsScreen(
-                                    quantity: 10,
-                                    difficulty: DifficultyEnum.medium,
-                                    type: QuestionTypeEnum.fillInTheBlanks,
-                                    module: LearnModuleTypeEnum
-                                        .odontologyBreastfeeding,
-                                    topic: LearnModuleTypeEnum
-                                        .odontologyBreastfeeding.topics[2],
-                                    dbRef: 'progressDesmamePrecoce',
-                                  ),
-                                ),
-                              );
-                            },
-                            imagePath: 'assets/cards/fig-3.png',
-                            color: AppColors.blue,
-                            progress: progressDesmamePrecoce,
-                            lenQuiz: 10,
-                          ),
+                                );
+                              },
+                              imagePath: 'assets/cards/fig-${LearnModuleTypeEnum.odontologyBreastfeeding.topics.keys.toList().indexOf(topicKey) + 1}.png',
+                              color: AppColors.blue,
+                              progress: getProgressForTopic(dbRef!),
+                              lenQuiz: 10,
+                            );
+                          }),
                         ],
                       ),
                     ),

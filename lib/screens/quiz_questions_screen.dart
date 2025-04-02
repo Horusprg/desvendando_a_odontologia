@@ -16,9 +16,10 @@ class QuestionsScreen extends StatefulWidget {
   final DifficultyEnum difficulty;
   final LearnModuleTypeEnum module;
   final String topic;
+  final String subtopic;
   final int quantity;
   final QuestionTypeEnum type;
-  final String dbRef;
+  final String? dbRef;
 
   const QuestionsScreen(
       {super.key,
@@ -26,8 +27,9 @@ class QuestionsScreen extends StatefulWidget {
       required this.difficulty,
       required this.type,
       required this.topic,
+      required this.subtopic,
       required this.module,
-      required this.dbRef});
+        this.dbRef});
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -63,7 +65,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           questionDifficulty: widget.difficulty,
           questionModule: widget.module,
           questionType: widget.type,
-          questionTopic: widget.topic);
+          questionTopic: widget.topic,
+          questionSubtopic: widget.subtopic
+      );
 
       setState(() {
         questions = loadedQuestions;
@@ -98,7 +102,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       selectedAnswers: selectedAnswers,
                       questions: questions,
                       topic: widget.topic,
-                      dbRef: widget.dbRef,
+                      dbRef: widget.dbRef!,
                     )));
       }
     });
