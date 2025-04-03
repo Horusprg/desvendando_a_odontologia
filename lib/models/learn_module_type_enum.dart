@@ -21,7 +21,8 @@ enum LearnModuleTypeEnum {
   buccalHealth(name: 'Saúde Bucal da Gestante', topics: {
     "Saúde Bucal da Mamãe": [],
     "Mitos e Crenças sobre Gravidez e Saúde Bucal": [],
-    "Doença Periodontais e Complicações Obstétricas": [
+    "Doenças Periodontais e Complicações Obstétricas": [
+      "Doenças Periodontais e Complicações Obstétricas",
       "Pré-eclâmpsia",
       "Baixo peso ao nascimento",
       "Parto prematuro"

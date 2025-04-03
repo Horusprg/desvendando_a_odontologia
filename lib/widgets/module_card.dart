@@ -32,6 +32,7 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
     "Anquiloglossia e Fissuras Labiopalatais": "/lesson-anquiloglossia",
     "Saúde Bucal da Mamãe": "/lesson-saude-mamae",
     "Mitos e Crenças sobre Gravidez e Saúde Bucal": "/lesson-mitos",
+    "Doenças Periodontais e Complicações Obstétricas": "/lesson-doencas-periodontais",
     "Pré-eclâmpsia": "/lesson-eclampsia",
     "Baixo peso ao nascimento": "/lesson-baixo-peso",
     "Parto prematuro": "/lesson-prematuro",
@@ -49,15 +50,16 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
         // Card principal
         GestureDetector(
           onTap: () {
+            if (widget.subtopics!.isEmpty) {
+              Navigator.pushNamed(context, topicToRoute[widget.text]!);
+            }
             setState(() {
               // Só alterna expansão se houver subtópicos
               if (widget.subtopics != null && widget.subtopics!.isNotEmpty) {
                 isExpanded = !isExpanded;
               }
             });
-            if (widget.subtopics!.isEmpty) {
-              print(widget.text);
-            }
+
           },
           child: Container(
             width: MediaQuery.of(context).size.width,

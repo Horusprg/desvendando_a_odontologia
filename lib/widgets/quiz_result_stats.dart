@@ -45,23 +45,23 @@ class QuizResultStatsWidget extends StatelessWidget {
                     softWrap: true,
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Ação para refazer o quiz
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: Text(
-                      "Refazer Quiz",
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     // Ação para refazer o quiz
+                  //   },
+                  //   style: ElevatedButton.styleFrom(
+                  //     padding:
+                  //         EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  //     backgroundColor: AppColors.primary,
+                  //     foregroundColor: Colors.white,
+                  //   ),
+                  //   child: Text(
+                  //     "Refazer Quiz",
+                  //     textAlign: TextAlign.center,
+                  //     style:
+                  //         TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  //   ),
+                  // )
                 ],
               ),
             ),

@@ -1,13 +1,20 @@
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_amamentacao.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_anquiloglossia.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_baixo_peso.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_beneficios_aleitamento.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_chupeta.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_composicao_leite.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_denticao.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_desmame.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_doencas.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_estomatognatico.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_importancia_pre_natal.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_maloclusao.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_mitos_crencas_gravidez_saude.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_pre_eclampsia.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_prematuro.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_respiracao.dart';
+import 'package:desvendando_a_odontologia/screens/lessons/lesson_saude_bucal.dart';
 import 'package:desvendando_a_odontologia/screens/lessons/lesson_tipos_aleitamento.dart';
 import 'package:flutter/material.dart';
 import 'screens/index_screen.dart';
@@ -36,8 +43,9 @@ class Routes {
   static const String estomatognaticoScreen = "/lesson-estomatognatico";
   static const String denticaoScreen = "/lesson-desenvolvimento-denticao";
   static const String anquiloglossiaScreen = "/lesson-anquiloglossia";
-  static const String saudeBucalMamameScreen = "/lesson-saude-mamae";
+  static const String saudeBucalMamaeScreen = "/lesson-saude-mamae";
   static const String mitosScreen = "/lesson-mitos";
+  static const String doencasScreen = "/lesson-doencas-periodontais";
   static const String preEclampsiaScreen = "/lesson-eclampsia";
   static const String baixoPesoScreen = "/lesson-baixo-peso";
   static const String prematuroScreen = "/lesson-prematuro";
@@ -67,6 +75,13 @@ class Routes {
       respiracaoBucalScreen: (context) => RespiracaoLessonScreen(),
       denticaoScreen: (context) => DenticaoLessonScreen(),
       anquiloglossiaScreen: (context) => AnquiloglossiaLessonScreen(),
+      saudeBucalMamaeScreen: (context) => SaudeBucalLessonScreen(),
+      doencasScreen : (context) => DoencasLessonScreen(),
+      mitosScreen: (context) => MitosCrencasLessonScreen(),
+      preEclampsiaScreen: (context) => PreEclampsiaLessonScreen(),
+      baixoPesoScreen: (context) => BaixoPesoLessonScreen(),
+      prematuroScreen: (context) => PartoPrematuroLessonScreen(),
+      preNatalScreen: (context) => ImportanciaPreNatalLessonScreen(),
       // quizSetupScreen: (context) => QuizSetupScreen(),
     };
   }
