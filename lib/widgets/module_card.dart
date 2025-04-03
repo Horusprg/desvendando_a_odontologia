@@ -22,6 +22,26 @@ class ModuleCardButtonWidget extends StatefulWidget {
 class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
   bool isExpanded = false; // Controla a expansão dos subtópicos
 
+  final Map<String, String> topicToRoute = {
+    "Amamentação": "/lesson-amamentacao",
+    "Tipos de Aleitamento": "/lesson-tipos-aleitamento",
+    "Composição do Leite": "/lesson-composicao-leite",
+    "Benefícios do Aleitamento": "/lesson-beneficios-aleitamento",
+    "O que é o sistema estomatognático?": "/lesson-estomatognatico",
+    "Desenvolvimento da primeira dentição": "/lesson-desenvolvimento-denticao",
+    "Anquiloglossia e Fissuras Labiopalatais": "/lesson-anquiloglossia",
+    "Saúde Bucal da Mamãe": "/lesson-saude-mamae",
+    "Mitos e Crenças sobre Gravidez e Saúde Bucal": "/lesson-mitos",
+    "Pré-eclâmpsia": "/lesson-eclampsia",
+    "Baixo peso ao nascimento": "/lesson-baixo-peso",
+    "Parto prematuro": "/lesson-prematuro",
+    "A Importância do Pré-Natal Odontológico": "/lesson-pre-natal",
+    "O que é o desmame precoce e quais as suas causas?": "/lesson-desmame",
+    "Uso de Chupeta e Mamadeira": "/lesson-chupeta",
+    "Tipos de Maloclusão": "/lesson-maloclusao",
+    "Respiração Bucal": "/lesson-respiracao-bucal",
+  };
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -124,9 +144,7 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, subtopic);
-                        // Ação quando um subtópico é selecionado
-                        print('Subtópico selecionado: $subtopic');
+                        Navigator.pushNamed(context, topicToRoute[subtopic]!);
                       },
                       child: Row(
                         children: [

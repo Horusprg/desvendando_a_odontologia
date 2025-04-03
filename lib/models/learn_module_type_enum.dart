@@ -14,7 +14,7 @@ enum LearnModuleTypeEnum {
     "Desmame Precoce": [
       "O que é o desmame precoce e quais as suas causas?",
       "Uso de Chupeta e Mamadeira",
-      "Tipos de Malocusão",
+      "Tipos de Maloclusão",
       "Respiração Bucal"
     ]
   }),
