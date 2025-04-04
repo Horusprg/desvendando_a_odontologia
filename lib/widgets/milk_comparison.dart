@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
 
 class MilkComparison extends StatelessWidget {
-  const MilkComparison({Key? key}) : super(key: key);
+  const MilkComparison({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildMilkColumn(
-              "Colostro",
-              // "assets/colostro.png",
-              "48 Calorias\n(kcal/dL)",
-              "1,8 Lipídios\n(g/dL)",
-              "1,9 Proteínas\n(g/dL)",
-              "5,1 Lactose\n(g/dL)",
-            ),
-            _buildMilkColumn(
-              "Leite maduro",
-              // "assets/leite_maduro.png",
-              "62 Calorias\n(kcal/dL)",
-              "3,0 Lipídios\n(g/dL)",
-              "1,3 Proteínas\n(g/dL)",
-              "6,1 Lactose\n(g/dL)",
-            ),
-            _buildMilkColumn(
-              "Leite de vaca",
-              // "assets/leite_vaca.png",
-              "69 Calorias\n(kcal/dL)",
-              "3,7 Lipídios\n(g/dL)",
-              "3,3 Proteínas\n(g/dL)",
-              "4,8 Lactose\n(g/dL)",
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildMilkColumn(
+            "Colostro",
+            // "assets/colostro.png",
+            "48 Calorias\n(kcal/dL)",
+            "1,8 Lipídios\n(g/dL)",
+            "1,9 Proteínas\n(g/dL)",
+            "5,1 Lactose\n(g/dL)",
+          ),
+          _buildMilkColumn(
+            "Leite maduro",
+            // "assets/leite_maduro.png",
+            "62 Calorias\n(kcal/dL)",
+            "3,0 Lipídios\n(g/dL)",
+            "1,3 Proteínas\n(g/dL)",
+            "6,1 Lactose\n(g/dL)",
+          ),
+          _buildMilkColumn(
+            "Leite de vaca",
+            // "assets/leite_vaca.png",
+            "69 Calorias\n(kcal/dL)",
+            "3,7 Lipídios\n(g/dL)",
+            "3,3 Proteínas\n(g/dL)",
+            "4,8 Lactose\n(g/dL)",
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildMilkColumn(String title,  String cal, String fat, String protein, String lactose) {
+  Widget _buildMilkColumn(
+      String title, String cal, String fat, String protein, String lactose) {
     return Column(
       children: [
         Text(

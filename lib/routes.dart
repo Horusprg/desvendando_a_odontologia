@@ -24,6 +24,7 @@ import 'screens/modulo_saude_bucal_gestante.dart';
 import 'screens/quiz_modulo_amamentacao.dart';
 import 'screens/quiz_modulo_saude_bucal_gestante.dart';
 import 'screens/statistic_screen.dart';
+import 'screens/references.dart';
 
 class Routes {
   static const String indexScreen = '/';
@@ -39,7 +40,8 @@ class Routes {
   static const String amamentacaoScreen = '/lesson-amamentacao';
   static const String tiposAleitamentoScreen = '/lesson-tipos-aleitamento';
   static const String composicaoLeiteScreen = '/lesson-composicao-leite';
-  static const String beneficiosAleitamentoScreen = "/lesson-beneficios-aleitamento";
+  static const String beneficiosAleitamentoScreen =
+      "/lesson-beneficios-aleitamento";
   static const String estomatognaticoScreen = "/lesson-estomatognatico";
   static const String denticaoScreen = "/lesson-desenvolvimento-denticao";
   static const String anquiloglossiaScreen = "/lesson-anquiloglossia";
@@ -54,6 +56,7 @@ class Routes {
   static const String chupetaScreen = "/lesson-chupeta";
   static const String maloclusaoScreen = "/lesson-maloclusao";
   static const String respiracaoBucalScreen = "/lesson-respiracao-bucal";
+  static const String referenciasScreen = "/referencias";
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -66,8 +69,9 @@ class Routes {
       statisticsScreen: (context) => StatisticsScreen(),
       amamentacaoScreen: (context) => AmamentacaoLessonScreen(),
       tiposAleitamentoScreen: (context) => TiposAleitamentoLessonScreen(),
-      composicaoLeiteScreen : (context) => ComposicaoLeiteLessonScreen(),
-      beneficiosAleitamentoScreen : (context) => BeneficiosAleitamentoLessonScreen(),
+      composicaoLeiteScreen: (context) => ComposicaoLeiteLessonScreen(),
+      beneficiosAleitamentoScreen: (context) =>
+          BeneficiosAleitamentoLessonScreen(),
       estomatognaticoScreen: (context) => EstomatognaticoLessonScreen(),
       desmamePrecoceScreen: (context) => DesmameLessonScreen(),
       chupetaScreen: (context) => ChupetaLessonScreen(),
@@ -76,14 +80,13 @@ class Routes {
       denticaoScreen: (context) => DenticaoLessonScreen(),
       anquiloglossiaScreen: (context) => AnquiloglossiaLessonScreen(),
       saudeBucalMamaeScreen: (context) => SaudeBucalLessonScreen(),
-      doencasScreen : (context) => DoencasLessonScreen(),
+      doencasScreen: (context) => DoencasLessonScreen(),
       mitosScreen: (context) => MitosCrencasLessonScreen(),
       preEclampsiaScreen: (context) => PreEclampsiaLessonScreen(),
       baixoPesoScreen: (context) => BaixoPesoLessonScreen(),
       prematuroScreen: (context) => PartoPrematuroLessonScreen(),
       preNatalScreen: (context) => ImportanciaPreNatalLessonScreen(),
-      // quizSetupScreen: (context) => QuizSetupScreen(),
+      referenciasScreen: (context) => ReferencesScreen(),
     };
   }
 }
-

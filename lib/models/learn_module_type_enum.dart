@@ -28,8 +28,7 @@ enum LearnModuleTypeEnum {
       "Parto prematuro"
     ],
     "A Importância do Pré-Natal Odontológico": []
-  })
-  ;
+  });
 
   const LearnModuleTypeEnum({required this.name, required this.topics});
 

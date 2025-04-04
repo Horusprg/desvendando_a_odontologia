@@ -29,7 +29,7 @@ class QuestionsScreen extends StatefulWidget {
       required this.topic,
       required this.subtopic,
       required this.module,
-        this.dbRef});
+      required this.dbRef});
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -66,8 +66,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           questionModule: widget.module,
           questionType: widget.type,
           questionTopic: widget.topic,
-          questionSubtopic: widget.subtopic
-      );
+          questionSubtopic: widget.subtopic);
 
       setState(() {
         questions = loadedQuestions;

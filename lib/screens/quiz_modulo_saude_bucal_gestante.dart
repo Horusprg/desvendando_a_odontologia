@@ -31,7 +31,8 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
   Map<String, String> titleToDbRef = {
     "Saúde Bucal da Mamãe": "progressSaudeBucal",
     "Mitos e Crenças sobre Gravidez e Saúde Bucal": "progressMitosCrencas",
-    "Doença Periodontais e Complicações Obstétricas": "progressSaudePeriodontal",
+    "Doenças Periodontais e Complicações Obstétricas":
+        "progressSaudePeriodontal",
     "A Importância do Pré-Natal Odontológico": "progressImportanciaPrenatal"
   };
 
@@ -77,12 +78,17 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
   }
 
   double getProgressForTopic(String dbRef) {
-    switch(dbRef) {
-      case 'progressSaudeBucal': return progressSaudeBucal;
-      case 'progressMitosCrencas': return progressMitosCrencas;
-      case 'progressSaudePeriodontal': return progressSaudePeriodontal;
-      case 'progressImportanciaPrenatal': return progressImportanciaPrenatal;
-      default: return 0.0;
+    switch (dbRef) {
+      case 'progressSaudeBucal':
+        return progressSaudeBucal;
+      case 'progressMitosCrencas':
+        return progressMitosCrencas;
+      case 'progressSaudePeriodontal':
+        return progressSaudePeriodontal;
+      case 'progressImportanciaPrenatal':
+        return progressImportanciaPrenatal;
+      default:
+        return 0.0;
     }
   }
 
@@ -211,9 +217,9 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                       child: Column(
                         spacing: 10,
                         children: [
-                          ...LearnModuleTypeEnum.buccalHealth.topics.entries.map((entry) {
+                          ...LearnModuleTypeEnum.buccalHealth.topics.entries
+                              .map((entry) {
                             final topicKey = entry.key;
-                            final topicItems = entry.value;
                             final dbRef = titleToDbRef[topicKey];
 
                             return QuizModuleCardButtonWidget(
@@ -227,15 +233,17 @@ class _QuizSaudeGestanteState extends State<QuizSaudeGestanteScreen> {
                                       type: QuestionTypeEnum.fillInTheBlanks,
                                       module: LearnModuleTypeEnum.buccalHealth,
                                       topic: topicKey,
-                                      subtopic: "",// Agora passamos a chave do tópico
+                                      subtopic:
+                                          "", // Agora passamos a chave do tópico
                                       dbRef: dbRef,
                                     ),
                                   ),
                                 );
                               },
-                              imagePath: 'assets/cards/fig-${LearnModuleTypeEnum.buccalHealth.topics.keys.toList().indexOf(topicKey) + 1}.png',
+                              imagePath:
+                                  'assets/cards/fig-${LearnModuleTypeEnum.buccalHealth.topics.keys.toList().indexOf(topicKey) + 1}.png',
                               color: AppColors.rose,
-                              progress: getProgressForTopic(dbRef!), // Você precisará implementar essa função
+                              progress: getProgressForTopic(dbRef!),
                               lenQuiz: 10,
                             );
                           }),

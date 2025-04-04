@@ -131,7 +131,8 @@ class _ModuloSaudeGestanteState extends State<ModuloSaudeGestanteScreen> {
                                 'Saúde Bucal\nda Gestante',
                                 style: TextStyle(
                                     fontSize: 24,
-                                    fontFamily: 'Typodermic',
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.0,
                                     color: AppColors.text),
                                 textAlign: TextAlign.start,
                               ),
@@ -254,8 +255,7 @@ class _ModuloSaudeGestanteState extends State<ModuloSaudeGestanteScreen> {
                               trailing: const Icon(Icons.arrow_forward_ios,
                                   size: 15.0),
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/referencias-amamentacao');
+                                Navigator.pushNamed(context, '/referencias');
                               },
                             ),
                           ),

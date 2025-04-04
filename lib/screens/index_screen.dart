@@ -142,27 +142,33 @@ class _IndexScreenState extends State<IndexScreen> {
                       onPressed: () async {
                         String userName = _nameController.text.trim();
 
-                        if (userName.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'Por favor, insira seu nome antes de continuar.'),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
+                        await verifyUser();
 
-                        try {
-                          if (userId == null) {
+                        if (userName.isEmpty) {
+                          if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content:
-                                    Text('Erro: ID do usuário não encontrado!'),
+                                content: Text(
+                                    'Por favor, insira seu nome antes de continuar.'),
                                 backgroundColor: Colors.red,
                               ),
                             );
                             return;
+                          }
+                        }
+
+                        try {
+                          if (userId == null) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Erro: ID do usuário não encontrado!'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
                           }
 
                           // Adiciona usuário ao Firebase Realtime Database

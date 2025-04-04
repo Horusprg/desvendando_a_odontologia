@@ -74,11 +74,15 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
   double getProgressForTopic(String dbRef) {
     // Implemente sua lógica para recuperar o progresso
     // Exemplo:
-    switch(dbRef) {
-      case 'progressImportanciaAmamentacao': return progressImportanciaAmamentacao;
-      case 'progressAmamentacaoOdontologia': return progressAmamentacaoOdontologia;
-      case 'progressDesmamePrecoce': return progressDesmamePrecoce;
-      default: return 0.0;
+    switch (dbRef) {
+      case 'progressImportanciaAmamentacao':
+        return progressImportanciaAmamentacao;
+      case 'progressAmamentacaoOdontologia':
+        return progressAmamentacaoOdontologia;
+      case 'progressDesmamePrecoce':
+        return progressDesmamePrecoce;
+      default:
+        return 0.0;
     }
   }
 
@@ -207,9 +211,10 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
                       child: Column(
                         spacing: 10,
                         children: [
-                          ...LearnModuleTypeEnum.odontologyBreastfeeding.topics.entries.map((entry) {
+                          ...LearnModuleTypeEnum
+                              .odontologyBreastfeeding.topics.entries
+                              .map((entry) {
                             final topicKey = entry.key;
-                            final topicItems = entry.value;
                             final dbRef = titleToDbRef[topicKey];
 
                             return QuizModuleCardButtonWidget(
@@ -221,7 +226,8 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
                                       quantity: 10,
                                       difficulty: DifficultyEnum.medium,
                                       type: QuestionTypeEnum.fillInTheBlanks,
-                                      module: LearnModuleTypeEnum.odontologyBreastfeeding,
+                                      module: LearnModuleTypeEnum
+                                          .odontologyBreastfeeding,
                                       topic: topicKey,
                                       subtopic: "",
                                       dbRef: dbRef,
@@ -229,7 +235,8 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
                                   ),
                                 );
                               },
-                              imagePath: 'assets/cards/fig-${LearnModuleTypeEnum.odontologyBreastfeeding.topics.keys.toList().indexOf(topicKey) + 1}.png',
+                              imagePath:
+                                  'assets/cards/fig-${LearnModuleTypeEnum.odontologyBreastfeeding.topics.keys.toList().indexOf(topicKey) + 1}.png',
                               color: AppColors.blue,
                               progress: getProgressForTopic(dbRef!),
                               lenQuiz: 10,

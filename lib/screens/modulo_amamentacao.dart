@@ -120,11 +120,11 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                                 textAlign: TextAlign.start,
                               ),
                               const Text(
-                                'Amamentação e\nOdontologia',
+                                'Amamentação\ne Odontologia',
                                 style: TextStyle(
                                     fontSize: 24,
-                                    fontFamily: 'Typodermic',
-                                    fontWeight: FontWeight.w100,
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.0,
                                     color: AppColors.text),
                                 textAlign: TextAlign.start,
                               ),
@@ -248,8 +248,7 @@ class _ModuloAmamentacaoState extends State<ModuloAmamentacaoScreen> {
                               trailing: const Icon(Icons.arrow_forward_ios,
                                   size: 15.0),
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/referencias-amamentacao');
+                                Navigator.pushNamed(context, '/referencias');
                               },
                             ),
                           ),

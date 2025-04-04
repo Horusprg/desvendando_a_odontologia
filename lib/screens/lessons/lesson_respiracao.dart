@@ -8,12 +8,10 @@ class RespiracaoLessonScreen extends StatefulWidget {
   const RespiracaoLessonScreen({super.key});
 
   @override
-  State<RespiracaoLessonScreen> createState() =>
-      _RespiracaoLessonScreen();
+  State<RespiracaoLessonScreen> createState() => _RespiracaoLessonScreen();
 }
 
-class _RespiracaoLessonScreen
-    extends State<RespiracaoLessonScreen> {
+class _RespiracaoLessonScreen extends State<RespiracaoLessonScreen> {
   final PageController _controller = PageController();
   int _currentPage = 0;
 
@@ -28,52 +26,55 @@ class _RespiracaoLessonScreen
           });
         },
         children: [
-          Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: [
-                    InfoCardWidget(
-                      title: "",
-                      content:
-                      "O padrão de respiração pode sofrer influências negativas do "
-                          "desmame precoce, criança que recebe o aleitamento materno mantém "
-                          "a postura de repouso de lábios selados e respiração nasal que é o padrão respiratório correto. ",
-                    ),
-
-                  ],
-                ),
-              )),
-          Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: [
-                    InfoCardWidget(
-                      title: "",
-                      content:
-                      "Por outro lado, quando ocorre o desmame precoce a postura de lábios entreabertos do bebê "
-                          "é mais comum, facilitando a respiração oral, respiração inadequada, "
-                          "que pode interferir no desenvolvimento da oclusão, da face além de interferir negativamente na qualidade de vida",
-                    ),
-
-                  ],
-                ),
-              )),
-          Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: [
-                    InfoCardWidget(
-                      title: "",
-                      content:
-                      "Somente a sucção no peito materno promove a atividade muscular correta...",
-                    ),
-
-                  ],
-                ),
-              )),
+          SingleChildScrollView(
+            child: Center(
+                child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                children: [
+                  InfoCardWidget(
+                    title: "",
+                    content:
+                        "O padrão de respiração pode sofrer influências negativas do "
+                        "desmame precoce, criança que recebe o aleitamento materno mantém "
+                        "a postura de repouso de lábios selados e respiração nasal que é o padrão respiratório correto. ",
+                  ),
+                ],
+              ),
+            )),
+          ),
+          SingleChildScrollView(
+            child: Center(
+                child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                children: [
+                  InfoCardWidget(
+                    title: "",
+                    content:
+                        "Por outro lado, quando ocorre o desmame precoce a postura de lábios entreabertos do bebê "
+                        "é mais comum, facilitando a respiração oral, respiração inadequada, "
+                        "que pode interferir no desenvolvimento da oclusão, da face além de interferir negativamente na qualidade de vida",
+                  ),
+                ],
+              ),
+            )),
+          ),
+          SingleChildScrollView(
+            child: Center(
+                child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                children: [
+                  InfoCardWidget(
+                    title: "",
+                    content:
+                        "Somente a sucção no peito materno promove a atividade muscular correta...",
+                  ),
+                ],
+              ),
+            )),
+          ),
         ],
       ),
       appBar: AppBar(
@@ -100,24 +101,27 @@ class _RespiracaoLessonScreen
           ],
         ),
       ),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => _controller.previousPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => _controller.previousPage(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward),
-            onPressed: () => _controller.nextPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+            IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: () => _controller.nextPage(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

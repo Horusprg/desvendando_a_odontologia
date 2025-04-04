@@ -258,61 +258,66 @@ class _HomeScreenState extends State<HomeScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Estatísticas',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 20.0,
-              children: [
-                Column(spacing: 10, children: [
-                  const Text(
-                    'Progresso\nnos Módulos',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  CircularProgressWidget(
-                      current: completedQuizzes,
-                      total: 70,
-                      color: AppColors.primary),
-                ]),
-                Column(spacing: 10, children: [
-                  const Text(
-                    'Módulos\nCompletos',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  CircularProgressWidget(
-                      current: completedModules,
-                      total: 10,
-                      color: AppColors.green),
-                ]),
-                Column(spacing: 10, children: [
-                  const Text(
-                    'Progresso\ndos Quizzes\nAleatórios',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    '${(progressRandom * 100).toStringAsFixed(1)}%',
-                    style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.lightRose,
-                        fontFamily: 'Rosario'),
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Estatísticas',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 20.0,
+                children: [
+                  Column(spacing: 10, children: [
+                    const Text(
+                      'Progresso\nnos Módulos',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    CircularProgressWidget(
+                        current: completedQuizzes,
+                        total: 70,
+                        color: AppColors.primary),
+                  ]),
+                  Column(spacing: 10, children: [
+                    const Text(
+                      'Módulos\nCompletos',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    CircularProgressWidget(
+                        current: completedModules,
+                        total: 10,
+                        color: AppColors.green),
+                  ]),
+                  Column(spacing: 10, children: [
+                    const Text(
+                      'Progresso\ndos Quizzes\nAleatórios',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      '${(progressRandom * 100).toStringAsFixed(1)}%',
+                      style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.lightRose,
+                          fontFamily: 'Rosario'),
+                      textAlign: TextAlign.center,
+                    ),
+                  ]),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

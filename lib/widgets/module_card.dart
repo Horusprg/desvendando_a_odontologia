@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../core/theme.dart';
 
 class ModuleCardButtonWidget extends StatefulWidget {
   final String text;
@@ -32,7 +31,8 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
     "Anquiloglossia e Fissuras Labiopalatais": "/lesson-anquiloglossia",
     "Saúde Bucal da Mamãe": "/lesson-saude-mamae",
     "Mitos e Crenças sobre Gravidez e Saúde Bucal": "/lesson-mitos",
-    "Doenças Periodontais e Complicações Obstétricas": "/lesson-doencas-periodontais",
+    "Doenças Periodontais e Complicações Obstétricas":
+        "/lesson-doencas-periodontais",
     "Pré-eclâmpsia": "/lesson-eclampsia",
     "Baixo peso ao nascimento": "/lesson-baixo-peso",
     "Parto prematuro": "/lesson-prematuro",
@@ -59,7 +59,6 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
                 isExpanded = !isExpanded;
               }
             });
-
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -70,7 +69,7 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
               border: Border.all(color: widget.color, width: 3),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: 0.2),
                   spreadRadius: 2,
                   blurRadius: 6,
                   offset: const Offset(2, 4),
@@ -88,7 +87,7 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
                   child: Text(
                     widget.text,
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       height: 1.1,
                       color: Colors.black,
@@ -136,7 +135,7 @@ class _ModuleCardButtonWidgetState extends State<ModuleCardButtonWidget> {
                     border: Border.all(color: widget.color, width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 4,
                         offset: const Offset(0, 2),
                       ),
