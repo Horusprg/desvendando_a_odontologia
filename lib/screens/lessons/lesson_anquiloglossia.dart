@@ -145,7 +145,7 @@ class _AnquiloglossiaLessonScreen extends State<AnquiloglossiaLessonScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.only(bottom: 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

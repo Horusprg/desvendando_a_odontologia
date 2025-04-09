@@ -155,7 +155,7 @@ class _EstomatognaticoLessonScreen extends State<EstomatognaticoLessonScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.only(bottom: 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

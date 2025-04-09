@@ -102,7 +102,7 @@ class _QuizAmamentacaoState extends State<QuizAmamentacaoScreen> {
           Positioned(
             child: Column(
               children: [
-                const SizedBox(height: 15),
+                const SizedBox(height: 20),
                 Container(
                   margin: EdgeInsets.all(20.0),
                   height: screenHeight * 0.8,

@@ -25,9 +25,6 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       case 1:
         Navigator.pushNamed(context, '/stats');
         break;
-      case 2:
-        Navigator.pushNamed(context, '/profile');
-        break;
     }
   }
 
@@ -40,7 +37,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Início'),
         BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart), label: 'Estatísticas'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+        //BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
       ],
     );
   }
